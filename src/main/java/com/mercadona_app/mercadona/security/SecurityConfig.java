@@ -2,7 +2,6 @@ package com.mercadona_app.mercadona.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +31,8 @@ public class SecurityConfig {
       http
               .csrf(csrf -> csrf.disable())
               .authorizeRequests(requests -> requests
-                      .antMatchers("/api/auth/**").permitAll()
+                      .antMatchers("/api/auth/register").denyAll()
+                      .antMatchers("/api/auth/login").permitAll()
                       .anyRequest().authenticated())
               .httpBasic(withDefaults());
     
