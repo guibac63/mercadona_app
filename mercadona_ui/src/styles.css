@@ -2,5 +2,21 @@
 .cucumber{
   color:#00ab61 !important;
 }
+
 html, body { height: 100%; }
+
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.margin-top-login{
+  margin-top: 100px !important;
+}
+
+.max-width-login{
+  max-width: 375px;
+}
+
+.mat-icon-login {
+   transform: scale(2);
+}
+
