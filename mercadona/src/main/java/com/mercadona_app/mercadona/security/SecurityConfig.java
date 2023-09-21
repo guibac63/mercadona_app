@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -21,13 +22,11 @@ public class SecurityConfig {
 
   private JwtAuthEntrypoint authEntrypoint;
 
-  private CustomUserDetailsService userDetailsService;
-
   @Autowired
-  public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthEntrypoint authEntrypoint) {
-    this.userDetailsService = userDetailsService;
+  public SecurityConfig(JwtAuthEntrypoint authEntrypoint, CustomUserDetailsService userDetailsService) {
     this.authEntrypoint = authEntrypoint;
   }
+
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,7 +39,7 @@ public class SecurityConfig {
                               .antMatchers("/api/auth/login").permitAll()
                               .anyRequest().authenticated())
               .httpBasic(withDefaults());
-    
+    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
 
   }
@@ -56,6 +55,9 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-
+  @Bean
+  public JWTAuthenticationFilter jwtAuthenticationFilter() {
+    return new JWTAuthenticationFilter();
+  }
 
 }

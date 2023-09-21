@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mercadona_app.mercadona.dto.AuthResponseDTO;
 import com.mercadona_app.mercadona.dto.LoginDto;
 import com.mercadona_app.mercadona.dto.RegisterDto;
 import com.mercadona_app.mercadona.models.Role;
 import com.mercadona_app.mercadona.models.UserEntity;
 import com.mercadona_app.mercadona.repository.RoleRepository;
 import com.mercadona_app.mercadona.repository.UserRepository;
+import com.mercadona_app.mercadona.security.JWTGenerator;
 
 @RestController
 @RequestMapping("api/auth")
@@ -33,24 +35,28 @@ public class AuthController {
   private RoleRepository roleRepository;
   
   private PasswordEncoder passwordEncoder;
+
+  private JWTGenerator jwtGenerator;
   
   @Autowired
   public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
-      RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+      RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
     this.authenticationManager = authenticationManager;
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
     this.passwordEncoder = passwordEncoder;
+    this.jwtGenerator = jwtGenerator;
   }
 
 
   @PostMapping("login")
-  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+  public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto) {
     Authentication authentication = authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    return new ResponseEntity<>("User signed success!",HttpStatus.OK);
+    String token = jwtGenerator.generateToken(authentication);
+    return new ResponseEntity<>(new AuthResponseDTO(token),HttpStatus.OK);
 
   }
 
