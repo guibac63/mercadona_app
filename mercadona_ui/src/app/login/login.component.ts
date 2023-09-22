@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../_services/user.service';
+import { UserAuthService } from '../_services/user-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,20 +12,24 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor( private userService: UserService){}
+  constructor( private userService: UserService, private userAuthService: UserAuthService){}
 
   ngOnInit(): void {}
 
   login(loginForm:NgForm) {
 
     this.userService.login(loginForm.value).subscribe(
-      (response)=>{
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
+      // (response)=>{
+      //   this.userAuthService.setToken(response.accessToken);
+      // },
+      // (error) => {
+      //   console.log(error);
+      // }
+      {
+        next: (response:any) => this.userAuthService.setToken(response.accessToken),
+        error: (error) => console.log(error),
       }
-    )
+    );
 
   }
 }
