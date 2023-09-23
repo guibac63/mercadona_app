@@ -2,6 +2,7 @@ package com.mercadona_app.mercadona.models;
 
 import javax.persistence.*;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
