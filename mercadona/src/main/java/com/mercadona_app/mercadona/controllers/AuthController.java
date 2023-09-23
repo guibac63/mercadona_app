@@ -50,7 +50,7 @@ public class AuthController {
     this.jwtGenerator = jwtGenerator;
   }
 
-  @CrossOrigin(origins = "http://localhost:4200")
+  @CrossOrigin()
   @PostMapping("login")
   public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto) {
     Authentication authentication = authenticationManager.authenticate(

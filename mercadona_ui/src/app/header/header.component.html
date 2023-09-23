@@ -29,11 +29,9 @@
           >
         </li>
         <li class="nav-item ms-lg-5">
-          <a class="nav-link cucumber float-end me-1 me-lg-0"
-            >Products</a
-          >
+          <a class="nav-link cucumber float-end me-1 me-lg-0">Products</a>
         </li>
-        <li class="nav-item ms-lg-5">
+        <li *ngIf="isLoggedIn()" class="nav-item ms-lg-5">
           <a
             class="nav-link cucumber float-end me-1 me-lg-0"
             routerLink="/admin"
@@ -42,6 +40,7 @@
         </li>
       </ul>
       <button
+        *ngIf="!isLoggedIn()"
         class="btn btn-success float-end mb-1"
         routerLink="/login"
         type="submit"
@@ -49,7 +48,12 @@
         <mat-icon class="align-middle">account_circle</mat-icon>
         <span class="ms-1">Login</span>
       </button>
-      <button class="btn btn-danger float-end mb-1" type="submit">
+      <button
+        (click)="logOut()"
+        *ngIf="isLoggedIn()"
+        class="btn btn-danger float-end mb-1"
+        type="submit"
+      >
         <mat-icon class="align-middle">logout</mat-icon>
         <span class="ms-1">Logout</span>
       </button>
