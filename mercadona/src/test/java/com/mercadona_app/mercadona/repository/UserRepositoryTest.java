@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import com.mercadona_app.mercadona.models.Role;
 import com.mercadona_app.mercadona.models.UserEntity;
 
+//!!!!!!! necessary to add @Builder and @allArgsConstructor to UserEntity Model for test, but have to remove it for fix the authentication
+
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserRepositoryTest {

@@ -13,6 +13,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.mercadona_app.mercadona.models.Role;
 
+//!!!!!!! necessary to add @Builder to Role Model for test, but have to remove it for fix the authentication
+
+
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class RoleRepositoryTests {
