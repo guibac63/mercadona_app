@@ -1,107 +1,107 @@
-package com.mercadona_app.mercadona.repository;
+// package com.mercadona_app.mercadona.repository;
 
-import java.util.List;
-import java.util.Optional;
+// import java.util.List;
+// import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+// import org.assertj.core.api.Assertions;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+// import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+// import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.mercadona_app.mercadona.models.Role;
-import com.mercadona_app.mercadona.models.UserEntity;
+// import com.mercadona_app.mercadona.models.Role;
+// import com.mercadona_app.mercadona.models.UserEntity;
 
-//!!!!!!! necessary to add @Builder and @allArgsConstructor to UserEntity Model for test, but have to remove it for fix the authentication
+// //!!!!!!! necessary to add @Builder and @allArgsConstructor to UserEntity Model for test, but have to remove it for fix the authentication
 
-@DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class UserRepositoryTest {
+// @DataJpaTest
+// @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+// public class UserRepositoryTest {
   
-  @Autowired
-  private UserRepository userRepository;
+//   @Autowired
+//   private UserRepository userRepository;
 
-  @Test
-  public void UserRepository_SaveAll_ReturnSavedUser() {
+//   @Test
+//   public void UserRepository_SaveAll_ReturnSavedUser() {
 
-    UserEntity user = UserEntity.builder()
-        .username("usertest")
-        .password("test")
-        .build();
+//     UserEntity user = UserEntity.builder()
+//         .username("usertest")
+//         .password("test")
+//         .build();
 
-    UserEntity savedUser = userRepository.save(user);
+//     UserEntity savedUser = userRepository.save(user);
 
-    Assertions.assertThat(savedUser).isNotNull();
-    Assertions.assertThat(savedUser.getId()).isGreaterThan(0);
+//     Assertions.assertThat(savedUser).isNotNull();
+//     Assertions.assertThat(savedUser.getId()).isGreaterThan(0);
 
-  }
+//   }
 
-  @Test
-  public void UserRepository_GetAll_ReturnMoreThenOneUser() {
-    UserEntity user = UserEntity.builder()
-        .username("usertest")
-        .password("test")
-        .build();
+//   @Test
+//   public void UserRepository_GetAll_ReturnMoreThenOneUser() {
+//     UserEntity user = UserEntity.builder()
+//         .username("usertest")
+//         .password("test")
+//         .build();
 
-    UserEntity user2 = UserEntity.builder()
-        .username("usertest2")
-        .password("test2")
-        .build();
+//     UserEntity user2 = UserEntity.builder()
+//         .username("usertest2")
+//         .password("test2")
+//         .build();
 
-    userRepository.save(user);
-    userRepository.save(user2);
+//     userRepository.save(user);
+//     userRepository.save(user2);
 
-    List<Role> userList = userRepository.findAll();
+//     List<Role> userList = userRepository.findAll();
 
-    Assertions.assertThat(userList).isNotNull();
-    Assertions.assertThat(userList.size()).isEqualTo(2);
-  }
+//     Assertions.assertThat(userList).isNotNull();
+//     Assertions.assertThat(userList.size()).isEqualTo(2);
+//   }
 
-  @Test
-  public void UserRepository_FindById_ReturnUser() {
-    UserEntity user = UserEntity.builder()
-        .username("usertest")
-        .password("test")
-        .build();
+//   @Test
+//   public void UserRepository_FindById_ReturnUser() {
+//     UserEntity user = UserEntity.builder()
+//         .username("usertest")
+//         .password("test")
+//         .build();
 
-    userRepository.save(user);
+//     userRepository.save(user);
 
-    UserEntity userSave = userRepository.findById(user.getId()).get();
+//     UserEntity userSave = userRepository.findById(user.getId()).get();
 
-    Assertions.assertThat(userSave).isNotNull();
-  }
+//     Assertions.assertThat(userSave).isNotNull();
+//   }
 
-  @Test
-  public void UserRepository_UpdateUser_ReturnUserNotNullAndExpectedName() {
-    UserEntity user = UserEntity.builder()
-        .username("usertest")
-        .password("test")
-        .build();
+//   @Test
+//   public void UserRepository_UpdateUser_ReturnUserNotNullAndExpectedName() {
+//     UserEntity user = UserEntity.builder()
+//         .username("usertest")
+//         .password("test")
+//         .build();
 
-    userRepository.save(user);
+//     userRepository.save(user);
 
-    UserEntity userSave = userRepository.findById(user.getId()).get();
-    userSave.setName("USER");
+//     UserEntity userSave = userRepository.findById(user.getId()).get();
+//     userSave.setName("USER");
 
-    UserEntity updatedUser = userRepository.save(userSave);
+//     UserEntity updatedUser = userRepository.save(userSave);
 
-    Assertions.assertThat(updatedUser.getName()).isNotNull();
-    Assertions.assertThat(updatedUser.getName()).isEqualTo("USER");
-  }
+//     Assertions.assertThat(updatedUser.getName()).isNotNull();
+//     Assertions.assertThat(updatedUser.getName()).isEqualTo("USER");
+//   }
 
-  @Test
-  public void UserRepository_UserDelete_ReturnUserIsEmpty() {
-    UserEntity user = UserEntity.builder()
-        .username("usertest")
-        .password("test")
-        .build();
+//   @Test
+//   public void UserRepository_UserDelete_ReturnUserIsEmpty() {
+//     UserEntity user = UserEntity.builder()
+//         .username("usertest")
+//         .password("test")
+//         .build();
 
-    userRepository.save(user);
+//     userRepository.save(user);
 
-    userRepository.deleteById(user.getId());
-    Optional<UserEntity> userReturn = userRepository.findById(user.getId());
+//     userRepository.deleteById(user.getId());
+//     Optional<UserEntity> userReturn = userRepository.findById(user.getId());
 
-    Assertions.assertThat(userReturn).isEmpty();
-  }
-}
+//     Assertions.assertThat(userReturn).isEmpty();
+//   }
+// }

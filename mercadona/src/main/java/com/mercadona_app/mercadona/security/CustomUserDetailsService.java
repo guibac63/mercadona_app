@@ -22,6 +22,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   private UserRepository userRepository;
 
+  private int id;
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
   @Autowired
   public CustomUserDetailsService(UserRepository userRepository) {
     this.userRepository = userRepository;

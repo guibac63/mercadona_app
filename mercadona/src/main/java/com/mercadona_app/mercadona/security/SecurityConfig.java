@@ -36,7 +36,7 @@ public class SecurityConfig {
               .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
               .authorizeRequests(requests -> requests
                               .antMatchers("/api/auth/register").denyAll()
-                              .antMatchers("/api/auth/login").permitAll()
+                              .antMatchers("/api/auth/login","/admin/**").permitAll()
                               .anyRequest().authenticated())
               .httpBasic(withDefaults());
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
