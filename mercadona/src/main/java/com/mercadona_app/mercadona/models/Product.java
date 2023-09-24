@@ -1,6 +1,7 @@
 package com.mercadona_app.mercadona.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Product {
   private double productDiscountedPrice;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @NotNull
   @JoinColumn(name = "category_id")
   private Category category;
 }

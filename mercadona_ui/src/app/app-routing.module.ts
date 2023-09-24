@@ -5,12 +5,28 @@ import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { authGuard } from './_auth/auth.guard';
+import { CategoryAdminComponent } from './category-admin/category-admin.component';
+import { ProductAdminComponent } from './product-admin/product-admin.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'admin', component: AdminComponent, canActivate:[authGuard] },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [authGuard],
+  },
   { path: 'login', component: LoginComponent },
   { path: 'forbidden', component: ForbiddenComponent },
+  {
+    path: 'admin/category_admin',
+    component: CategoryAdminComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/product_admin',
+    component: ProductAdminComponent,
+    canActivate: [authGuard],
+  },
 ];
 
 @NgModule({

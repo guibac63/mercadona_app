@@ -15,6 +15,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AuthInterceptor } from './_auth/auth.interceptor';
 import { UserService } from './_services/user.service';
+import { CategoryAdminComponent } from './category-admin/category-admin.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { ProductAdminComponent } from './product-admin/product-admin.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,8 @@ import { UserService } from './_services/user.service';
     LoginComponent,
     HeaderComponent,
     ForbiddenComponent,
+    CategoryAdminComponent,
+    ProductAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +38,9 @@ import { UserService } from './_services/user.service';
     MatIconModule,
     FormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [
     {

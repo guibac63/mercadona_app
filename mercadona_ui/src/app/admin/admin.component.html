@@ -1,8 +1,16 @@
-<div class="container">
-  <div class="card">
-    <h1 class="text-center text-success">
-      You are admin
-    </h1>
-  </div>
-</div>
+<mat-card class=" w-50 bg-light mt-3 ms-3 me-3">
+  <mat-card-content>
+    <button routerLink="/admin/category_admin" mat-button class="cucumber" color="accent">Category</button>
+  </mat-card-content>
+</mat-card>
+<mat-card class="w-50 bg-light mt-3 ms-3 me-3">
+  <mat-card-content>
+    <button mat-button class="cucumber" color="accent">Promotion</button>
+  </mat-card-content>
+</mat-card>
+<mat-card class="w-50 bg-light mt-3 ms-3 me-3">
+  <mat-card-content>
+    <button routerLink="/admin/product_admin" mat-button class="cucumber" color="accent">Product</button>
+  </mat-card-content>
+</mat-card>
 <router-outlet></router-outlet>
