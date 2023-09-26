@@ -19,6 +19,10 @@ import { CategoryAdminComponent } from './category-admin/category-admin.componen
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductAdminComponent } from './product-admin/product-admin.component';
+import { CategoryAdminFormComponent } from './category-admin-form/category-admin-form.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +34,7 @@ import { ProductAdminComponent } from './product-admin/product-admin.component';
     ForbiddenComponent,
     CategoryAdminComponent,
     ProductAdminComponent,
+    CategoryAdminFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +45,9 @@ import { ProductAdminComponent } from './product-admin/product-admin.component';
     HttpClientModule,
     RouterModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mercadona_app.mercadona.dto.AuthResponseDTO;
@@ -50,9 +51,9 @@ public class AuthController {
     this.jwtGenerator = jwtGenerator;
   }
 
-  @CrossOrigin()
+  
   @PostMapping("login")
-  public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto) {
+  public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto ) {
     Authentication authentication = authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
 

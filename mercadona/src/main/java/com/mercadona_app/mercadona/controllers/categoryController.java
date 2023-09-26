@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mercadona_app.mercadona.models.Category;
 import com.mercadona_app.mercadona.services.CategoryService;
 
+
 @RestController
-@RequestMapping("admin/category")
+@RequestMapping("api/category")
 public class categoryController {
   
   @Autowired
   CategoryService categoryService;
 
+  
   @PostMapping({"add"})
   public Category addNewCategory(@RequestBody Category category) {
+    
     return categoryService.addNewCategory(category);
   }
 

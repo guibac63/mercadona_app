@@ -1,0 +1,31 @@
+<nav aria-label="breadcrumb" class="ps-4 pt-4 bg-light cucumber">
+  <ol class="breadcrumb cucumber">
+    <li class="breadcrumb-item"><a routerLink="/admin">Admin</a></li>
+    <li class="breadcrumb-item">
+      <a routerLink="/admin/category_admin">Category</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Add Category</li>
+  </ol>
+</nav>
+<div class="container mt-5 col-lg-4">
+  <div class="card p-3 m-4 shadow">
+    <!-- <h5 class="card-title cucumber">Category</h5> -->
+    <form #categoryForm="ngForm" (ngSubmit)="addCategory(categoryForm)">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Category name</mat-label>
+        <input
+          matInput
+          placeholder="Category name"
+          [(ngModel)]="category.categoryName"
+          name="categoryName"
+        />
+      </mat-form-field>
+      <div>
+        <div class="float-end">
+          <button mat-raised-button color="primary" class="me-2">Clear</button>
+          <button type="submit" mat-raised-button color="primary">Add Category</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

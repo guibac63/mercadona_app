@@ -7,6 +7,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { authGuard } from './_auth/auth.guard';
 import { CategoryAdminComponent } from './category-admin/category-admin.component';
 import { ProductAdminComponent } from './product-admin/product-admin.component';
+import { CategoryAdminFormComponent } from './category-admin-form/category-admin-form.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -20,6 +21,11 @@ const routes: Routes = [
   {
     path: 'admin/category_admin',
     component: CategoryAdminComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/category_admin/form',
+    component: CategoryAdminFormComponent,
     canActivate: [authGuard],
   },
   {

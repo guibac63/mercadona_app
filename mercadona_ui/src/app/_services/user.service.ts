@@ -8,7 +8,8 @@ export class UserService {
   
   PATH_OF_API = 'http://localhost:9090';
 
-  requestHeader = new HttpHeaders({ 'No-Auth': 'True' });
+  requestHeader = new HttpHeaders({ 'No-Auth': 'True',
+                                    'Acces-Control-Allow-Origin': '*' });
 
   constructor(private httpclient: HttpClient) {}
 

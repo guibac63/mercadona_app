@@ -1,8 +1,10 @@
 package com.mercadona_app.mercadona.security;
 
+import java.security.Key;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
@@ -15,8 +17,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JWTGenerator {
 
-  @Autowired
-  private Environment env;
+
+  @Value("${jwt_secret}")
+  private String secretKey;
 
   public String generateToken(Authentication authentication) {
     String username = authentication.getName();
@@ -26,15 +29,16 @@ public class JWTGenerator {
             .setSubject(username)
             .setIssuedAt(new Date())
             .setExpiration(expireDate)
-            .signWith(SignatureAlgorithm.HS512, env.getProperty("jwt_secret"))
+            .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact();
-    
+
+
     return token;
   }
 
   public String getUsernameFromJWT(String token) {
     Claims claims = Jwts.parser()
-                    .setSigningKey(env.getProperty("jwt_secret"))
+                    .setSigningKey(secretKey)
                     .parseClaimsJws(token)
                     .getBody();
     return claims.getSubject();
@@ -42,7 +46,7 @@ public class JWTGenerator {
 
   public boolean validateToken(String token){
     try{
-      Jwts.parser().setSigningKey(env.getProperty("jwt_secret")).parseClaimsJws(token);
+      Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
       return true;
     } catch (Exception e) {
         throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");
