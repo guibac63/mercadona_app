@@ -43,7 +43,7 @@ public class SecurityConfig {
               .authorizeRequests(requests -> requests
                               .antMatchers("/api/auth/register").denyAll()
                               .antMatchers("/api/auth/login").permitAll()
-                              .anyRequest().permitAll())
+                              .anyRequest().authenticated())
               .httpBasic(withDefaults());       
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();

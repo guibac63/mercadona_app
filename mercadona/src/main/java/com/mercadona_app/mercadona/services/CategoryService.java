@@ -1,5 +1,7 @@
 package com.mercadona_app.mercadona.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,19 @@ public class CategoryService {
 
   public Category addNewCategory(Category category) {
     return categoryRepository.save(category);
+  }
+
+
+  public List<Category> getAllCategories() {
+    return (List<Category>) categoryRepository.findAll();
+  }
+
+  public void deleteCategoryDetails(Integer id) {
+    categoryRepository.deleteById(id);
+  }
+
+  public Category getCategoryDetailsById(Integer id) {
+    return categoryRepository.findById(id).get();
   }
 
 

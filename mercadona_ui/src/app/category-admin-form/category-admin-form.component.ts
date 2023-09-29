@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../_model/category.model';
 import { NgForm } from '@angular/forms';
 import { CategoryService } from '../_services/category.service';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-category-admin-form',
@@ -11,18 +11,30 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 })
 export class CategoryAdminFormComponent implements OnInit {
   category: Category = {
+    id: 0,
     categoryName: '',
   };
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService,
+              private router: Router,
+              private actRoute:ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    if(this.actRoute.snapshot.params.id != undefined){
+      this.actRoute.data.subscribe(data=> {
+        this.category = data.routeCategoryResolver
+      })
+    }
+  }
 
   addCategory(categoryForm: NgForm) {
+
     this.categoryService.addCategory(this.category).subscribe({
-      
         next: (response:Category) => {
           console.log(response);
+          this.router.navigate(['/admin/category_admin'])
+
         },
         error: (error) => {
           console.log(error);

@@ -23,7 +23,8 @@
       <div>
         <div class="float-end">
           <button mat-raised-button color="primary" class="me-2">Clear</button>
-          <button type="submit" mat-raised-button color="primary">Add Category</button>
+          <button type="submit" mat-raised-button color="primary" *ngIf="!category.id">Add Category</button>
+          <button type="submit" mat-raised-button color="primary" *ngIf="category.id">Update</button>
         </div>
       </div>
     </form>

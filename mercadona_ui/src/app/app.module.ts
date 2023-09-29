@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -22,6 +21,9 @@ import { ProductAdminComponent } from './product-admin/product-admin.component';
 import { CategoryAdminFormComponent } from './category-admin-form/category-admin-form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ShowCategoryDetailsComponent } from './show-category-details/show-category-details.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { MatInputModule } from '@angular/material/input';
     CategoryAdminComponent,
     ProductAdminComponent,
     CategoryAdminFormComponent,
+    ShowCategoryDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,15 +50,17 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
+      multi: true,
     },
-    UserService
+    UserService,
   ],
   bootstrap: [AppComponent],
 })
