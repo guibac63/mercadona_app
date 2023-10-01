@@ -8,7 +8,14 @@ import org.springframework.stereotype.Service;
 import com.mercadona_app.mercadona.models.Category;
 import com.mercadona_app.mercadona.repository.CategoryRepository;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 @Service
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CategoryService {
   
   @Autowired

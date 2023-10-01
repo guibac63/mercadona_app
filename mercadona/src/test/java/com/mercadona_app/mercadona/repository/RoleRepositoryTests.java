@@ -1,95 +1,101 @@
-// package com.mercadona_app.mercadona.repository;
+package com.mercadona_app.mercadona.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.mercadona_app.mercadona.models.Role;
 
 
-// import java.util.List;
-// import java.util.Optional;
+@ComponentScan(basePackages = "com.mercadona_app.mercadona.security")
+@DataJpaTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+public class RoleRepositoryTests {
+  
+  @Autowired
+  private RoleRepository roleRepository;
 
-// import org.assertj.core.api.Assertions;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-// import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-// import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+  @Test
+  @Transactional
+  public void RoleRepository_SaveAll_ReturnSavedRole() {
 
-// import com.mercadona_app.mercadona.models.Role;
+  Role role = Role.builder()
+  .name("ADMIN").build();
 
-// //!!!!!!! necessary to add @Builder to Role Model for test, but have to remove it for fix the authentication
+  Role savedRole = roleRepository.save(role);
 
+  Assertions.assertThat(savedRole).isNotNull();
+  Assertions.assertThat(savedRole.getId()).isGreaterThan(0);
 
-// @DataJpaTest
-// @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-// public class RoleRepositoryTests {
-//   @Autowired
-//   private RoleRepository roleRepository;
+  }
 
-//   @Test
-//   public void RoleRepository_SaveAll_ReturnSavedRole() {
+  @Test
+  @Transactional
+  public void RoleRepository_GetAll_ReturnMoreThenOneRole() {
+  Role role = Role.builder()
+  .name("CUSTOMER").build();
+  Role role2 = Role.builder()
+  .name("USER").build();
 
-//   Role role = Role.builder()
-//   .name("ADMIN").build();
+  roleRepository.save(role);
+  roleRepository.save(role2);
 
-//   Role savedRole = roleRepository.save(role);
+  List<Role> roleList = roleRepository.findAll();
 
-//   Assertions.assertThat(savedRole).isNotNull();
-//   Assertions.assertThat(savedRole.getId()).isGreaterThan(0);
+  Assertions.assertThat(roleList).isNotNull();
+  Assertions.assertThat(roleList.size()).isEqualTo(2);
+  }
 
-//   }
+  @Test
+  @Transactional
+  public void RoleRepository_FindById_ReturnRole() {
+  Role role = Role.builder()
+  .name("ADMIN").build();
 
-//   @Test
-//   public void RoleRepository_GetAll_ReturnMoreThenOneRole() {
-//   Role role = Role.builder()
-//   .name("CUSTOMER").build();
-//   Role role2 = Role.builder()
-//   .name("USER").build();
+  roleRepository.save(role);
 
-//   roleRepository.save(role);
-//   roleRepository.save(role2);
+  Role roleSave = roleRepository.findById(role.getId()).get();
 
-//   List<Role> roleList = roleRepository.findAll();
+  Assertions.assertThat(roleSave).isNotNull();
+  }
 
-//   Assertions.assertThat(roleList).isNotNull();
-//   Assertions.assertThat(roleList.size()).isEqualTo(2);
-//   }
+  @Test
+  @Transactional
+  public void RoleRepository_UpdateRole_ReturnRoleNotNullAndExpectedName() {
+  Role role = Role.builder()
+  .name("ADMIN").build();
 
-//   @Test
-//   public void RoleRepository_FindById_ReturnRole() {
-//   Role role = Role.builder()
-//   .name("ADMIN").build();
+  roleRepository.save(role);
 
-//   roleRepository.save(role);
+  Role roleSave = roleRepository.findById(role.getId()).get();
+  roleSave.setName("USER");
 
-//   Role roleSave = roleRepository.findById(role.getId()).get();
+  Role updatedRole = roleRepository.save(roleSave);
 
-//   Assertions.assertThat(roleSave).isNotNull();
-//   }
+  Assertions.assertThat(updatedRole.getName()).isNotNull();
+  Assertions.assertThat(updatedRole.getName()).isEqualTo("USER");
+  }
 
-//   @Test
-//   public void RoleRepository_UpdateRole_ReturnRoleNotNullAndExpectedName() {
-//   Role role = Role.builder()
-//   .name("ADMIN").build();
+  @Test
+  @Transactional
+  public void RoleRepository_RoleDelete_ReturnRoleIsEmpty() {
+  Role role = Role.builder()
+  .name("ADMIN").build();
 
-//   roleRepository.save(role);
+  roleRepository.save(role);
 
-//   Role roleSave = roleRepository.findById(role.getId()).get();
-//   roleSave.setName("USER");
+  roleRepository.deleteById(role.getId());
+  Optional<Role> roleReturn = roleRepository.findById(role.getId());
 
-//   Role updatedRole = roleRepository.save(roleSave);
+  Assertions.assertThat(roleReturn).isEmpty();
+  }
 
-//   Assertions.assertThat(updatedRole.getName()).isNotNull();
-//   Assertions.assertThat(updatedRole.getName()).isEqualTo("USER");
-//   }
-
-//   @Test
-//   public void RoleRepository_RoleDelete_ReturnRoleIsEmpty() {
-//   Role role = Role.builder()
-//   .name("ADMIN").build();
-
-//   roleRepository.save(role);
-
-//   roleRepository.deleteById(role.getId());
-//   Optional<Role> roleReturn = roleRepository.findById(role.getId());
-
-//   Assertions.assertThat(roleReturn).isEmpty();
-//   }
-
-// }
+}

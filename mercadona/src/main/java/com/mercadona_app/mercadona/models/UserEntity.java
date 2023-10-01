@@ -1,15 +1,21 @@
 package com.mercadona_app.mercadona.models;
 
 import javax.persistence.*;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="users")
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
 
