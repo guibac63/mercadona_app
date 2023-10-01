@@ -67,7 +67,7 @@ public class CategoryRepositoryTests {
 
   @Test
   @Transactional
-  public void CategoryRepository_UpdateRole_ReturnCategoryNotNullAndExpectedName() {
+  public void CategoryRepository_UpdateCategory_ReturnCategoryNotNullAndExpectedName() {
   Category category = Category.builder()
   .categoryName("Fruits").build();
 
@@ -76,24 +76,24 @@ public class CategoryRepositoryTests {
   Category categorySave = categoryRepository.findById(category.getId()).get();
   categorySave.setCategoryName("Viande");
 
-  Category updatedRole = categoryRepository.save(categorySave);
+  Category updatedCategory = categoryRepository.save(categorySave);
 
-  Assertions.assertThat(updatedRole.getCategoryName()).isNotNull();
-  Assertions.assertThat(updatedRole.getCategoryName()).isEqualTo("Viande");
+  Assertions.assertThat(updatedCategory.getCategoryName()).isNotNull();
+  Assertions.assertThat(updatedCategory.getCategoryName()).isEqualTo("Viande");
   }
 
   @Test
   @Transactional
-  public void CategoryRepository_RoleDelete_ReturnCategoryIsEmpty() {
+  public void CategoryRepository_CategoryDelete_ReturnCategoryIsEmpty() {
   Category category = Category.builder()
   .categoryName("Fruits").build();
 
   categoryRepository.save(category);
 
   categoryRepository.deleteById(category.getId());
-  Optional<Category> roleReturn = categoryRepository.findById(category.getId());
+  Optional<Category> categoryReturn = categoryRepository.findById(category.getId());
 
-  Assertions.assertThat(roleReturn).isEmpty();
+  Assertions.assertThat(categoryReturn).isEmpty();
   }
 
 }

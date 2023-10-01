@@ -32,10 +32,10 @@ public class Promotion {
 
   private String promotionName;
 
-  @JsonFormat(pattern="yyyy-MM-dd")
+
   private Date beginningDate; 
 
-  @JsonFormat(pattern = "yyyy-MM-dd")
+
   private Date endingDate;
 
   @Min(value = 1, message = "La valeur doit être d'au moins 1")

@@ -24,7 +24,13 @@ import { MatInputModule } from '@angular/material/input';
 import { ShowCategoryDetailsComponent } from './show-category-details/show-category-details.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { PromotionAdminComponent } from './promotion-admin/promotion-admin.component';
+import { PromotionAdminFormComponent } from './promotion-admin-form/promotion-admin-form.component';
+import { ShowPromotionDetailsComponent } from './show-promotion-details/show-promotion-details.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -38,6 +44,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ProductAdminComponent,
     CategoryAdminFormComponent,
     ShowCategoryDetailsComponent,
+    PromotionAdminComponent,
+    PromotionAdminFormComponent,
+    ShowPromotionDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +61,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MomentDateModule,
   ],
   providers: [
     {
@@ -61,6 +73,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
       multi: true,
     },
     UserService,
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

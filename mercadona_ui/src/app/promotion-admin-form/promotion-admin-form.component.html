@@ -1,0 +1,99 @@
+<nav aria-label="breadcrumb" class="ps-4 pt-4 bg-light cucumber">
+  <ol class="breadcrumb cucumber">
+    <li class="breadcrumb-item"><a routerLink="/admin">Admin</a></li>
+    <li class="breadcrumb-item">
+      <a routerLink="/admin/promotion_admin">Promotion</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Add Promotion</li>
+  </ol>
+</nav>
+<div class="container mt-5 col-lg-4">
+  <mat-card class="shadow">
+    <mat-card-header class="mb-3 bg-main-theme">
+      <mat-card-title class="text-white pb-3 form-title-size fw-light"
+        >Promotion</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <form #promotionForm="ngForm" (ngSubmit)="addPromotion(promotionForm)">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Promotion name</mat-label>
+          <input
+            matInput
+            placeholder="Promotion name"
+            [(ngModel)]="promotion.promotionName"
+            name="promotionName"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Beginning date</mat-label>
+          <input
+            matInput
+            disabled
+            [min]="currentDate"
+            [matDatepicker]="pickerBeginningDate"
+            placeholder="Beginning date"
+            [(ngModel)]="promotion.beginningDate"
+            name="beginningDate"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="pickerBeginningDate"
+            [disabled]="false"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerBeginningDate [disabled]="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Ending date</mat-label>
+          <input
+            matInput
+            disabled
+            [matDatepicker]="pickerEndingDate"
+            placeholder="Ending date"
+            [(ngModel)]="promotion.endingDate"
+            name="endingDate"
+          />
+          <!-- <mat-hint>dd/mm/yyyy</mat-hint> -->
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="pickerEndingDate"
+            [disabled]="false"
+          ></mat-datepicker-toggle>
+          <mat-datepicker [disabled]="false" #pickerEndingDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Promotion percentage (in %)</mat-label>
+          <input
+            matInput
+            placeholder="Promotion percentage (in %)"
+            [(ngModel)]="promotion.promotionPercentage"
+            name="promotionPercentage"
+          />
+        </mat-form-field>
+        <div>
+          <div class="float-end">
+            <button mat-raised-button color="primary" class="me-2">
+              Clear
+            </button>
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              *ngIf="!promotion.id"
+            >
+              Add Promotion
+            </button>
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              *ngIf="promotion.id"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

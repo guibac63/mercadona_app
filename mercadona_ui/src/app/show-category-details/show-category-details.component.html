@@ -1,12 +1,10 @@
 <table mat-table [dataSource]="categoryDetails" class="mat-elevation-z8 mt-5">
 
-  <!-- Position Column -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> No. </th>
     <td mat-cell *matCellDef="let element"> {{element.id}} </td>
   </ng-container>
 
-  <!-- Name Column -->
   <ng-container matColumnDef="categoryName">
     <th mat-header-cell *matHeaderCellDef> Category Name </th>
     <td mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
@@ -15,8 +13,8 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef> </th>
     <td mat-cell *matCellDef="let element" class=" w-25">
-      <button mat-icon-button color="primary" class="me-3" (click)="editProduct(element.id)"><mat-icon> edit </mat-icon></button>
-      <button mat-icon-button color="warn" (click)="deleteProduct(element.id)"><mat-icon> delete </mat-icon></button>   
+      <button mat-icon-button color="primary" class="me-3" (click)="editCategory(element.id)"><mat-icon> edit </mat-icon></button>
+      <button mat-icon-button color="warn" (click)="deleteCategory(element.id)"><mat-icon> delete </mat-icon></button>   
     </td>
   </ng-container>
 

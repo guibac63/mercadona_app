@@ -31,6 +31,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding:0px 16px;
 }
 
+.bg-main-theme {
+  background-color: #009688;
+}
+
+.form-title-size {
+  font-size: 1.2rem !important;
+}
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

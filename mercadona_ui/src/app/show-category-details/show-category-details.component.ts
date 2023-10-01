@@ -37,7 +37,7 @@ export class ShowCategoryDetailsComponent implements OnInit {
     });
   }
 
-  deleteProduct(categoryId) {
+  deleteCategory(categoryId) {
     this.categoryService.deleteCategory(categoryId).subscribe({
       next: (response) => {
         console.log(response);
@@ -49,7 +49,7 @@ export class ShowCategoryDetailsComponent implements OnInit {
     });
   }
 
-  editProduct(id){
+  editCategory(id){
     this.router.navigate(['admin/category_admin/form/',{id: id}]);
   }
 }

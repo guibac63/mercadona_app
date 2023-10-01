@@ -9,6 +9,9 @@ import { CategoryAdminComponent } from './category-admin/category-admin.componen
 import { ProductAdminComponent } from './product-admin/product-admin.component';
 import { CategoryAdminFormComponent } from './category-admin-form/category-admin-form.component';
 import { RouteCategoryResolver } from './_resolvers/route.category-resolver';
+import { PromotionAdminComponent } from './promotion-admin/promotion-admin.component';
+import { PromotionAdminFormComponent } from './promotion-admin-form/promotion-admin-form.component';
+import { RoutePromotionResolver } from './_resolvers/route.promotion-resolver';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -29,6 +32,17 @@ const routes: Routes = [
     component: CategoryAdminFormComponent,
     canActivate: [authGuard],
     resolve: { routeCategoryResolver: RouteCategoryResolver },
+  },
+  {
+    path: 'admin/promotion_admin',
+    component: PromotionAdminComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin/promotion_admin/form',
+    component: PromotionAdminFormComponent,
+    canActivate: [authGuard],
+    resolve: { routeCategoryResolver: RoutePromotionResolver },
   },
   {
     path: 'admin/product_admin',
