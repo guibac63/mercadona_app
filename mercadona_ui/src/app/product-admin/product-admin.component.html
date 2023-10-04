@@ -1,1 +1,13 @@
-<p>product-admin works!</p>
+<nav aria-label="breadcrumb" class="ps-4 pt-4 bg-light cucumber ">
+  <ol class="breadcrumb cucumber">
+    <li class="breadcrumb-item"><a routerLink="/admin">Admin</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Product</li>
+  </ol>
+</nav>
+<button routerLink="/admin/product_admin/form" class="btn btn-success mt-5 ms-5">
+  <mat-icon class=" align-bottom me-1">note_add</mat-icon>Add Product
+</button>
+
+<div class="container">
+  <app-show-product-details></app-show-product-details>
+</div>

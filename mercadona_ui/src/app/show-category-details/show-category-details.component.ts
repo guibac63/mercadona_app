@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoryService } from '../_services/category.service';
 import { Router } from '@angular/router';
+import { MatSort, Sort } from '@angular/material/sort';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class ShowCategoryDetailsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   categoryDetails: any;
   displayedColumns: string[] = ['id', 'categoryName', 'edit'];
@@ -30,6 +32,11 @@ export class ShowCategoryDetailsComponent implements OnInit {
       next: (response: any) => {
         this.categoryDetails = new MatTableDataSource(response);
         this.categoryDetails.paginator = this.paginator;
+        this.categoryDetails.sort = this.sort;
+        const sortState: Sort = { active: 'id', direction: 'asc' };
+        this.sort.active = sortState.active;
+        this.sort.direction = sortState.direction;
+        this.sort.sortChange.emit(sortState);
       },
       error: (error) => {
         console.log(error);
@@ -49,7 +56,7 @@ export class ShowCategoryDetailsComponent implements OnInit {
     });
   }
 
-  editCategory(id){
-    this.router.navigate(['admin/category_admin/form/',{id: id}]);
+  editCategory(id) {
+    this.router.navigate(['admin/category_admin/form/', { id: id }]);
   }
 }

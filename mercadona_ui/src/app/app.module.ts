@@ -31,6 +31,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { DatePipe } from '@angular/common';
+import { ProductAdminFormComponent } from './product-admin-form/product-admin-form.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ShowProductDetailsComponent } from './show-product-details/show-product-details.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -47,6 +51,8 @@ import { DatePipe } from '@angular/common';
     PromotionAdminComponent,
     PromotionAdminFormComponent,
     ShowPromotionDetailsComponent,
+    ProductAdminFormComponent,
+    ShowProductDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +71,8 @@ import { DatePipe } from '@angular/common';
     MatDatepickerModule,
     MatNativeDateModule,
     MomentDateModule,
+    MatSelectModule,
+    MatSortModule
   ],
   providers: [
     {

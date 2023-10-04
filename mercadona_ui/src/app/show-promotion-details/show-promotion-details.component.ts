@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PromotionService } from '../_services/promotion.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-show-promotion-details',
@@ -11,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ShowPromotionDetailsComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   promotionDetails: any;
   displayedColumns: string[] = [
@@ -36,6 +38,11 @@ export class ShowPromotionDetailsComponent {
       next: (response: any) => {
         this.promotionDetails = new MatTableDataSource(response);
         this.promotionDetails.paginator = this.paginator;
+        this.promotionDetails.sort = this.sort;
+        const sortState: Sort = { active: 'id', direction: 'asc' };
+        this.sort.active = sortState.active;
+        this.sort.direction = sortState.direction;
+        this.sort.sortChange.emit(sortState);
       },
       error: (error) => {
         console.log(error);

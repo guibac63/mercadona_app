@@ -29,7 +29,7 @@ export class PromotionAdminFormComponent {
   ngOnInit(): void {
     if (this.actRoute.snapshot.params.id != undefined) {
       this.actRoute.data.subscribe((data) => {
-        this.promotion = data.routeCategoryResolver;
+        this.promotion = data.routePromotionResolver;
       });
     }
   }

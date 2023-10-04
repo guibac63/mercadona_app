@@ -1,0 +1,98 @@
+<nav aria-label="breadcrumb" class="ps-4 pt-4 bg-light cucumber">
+  <ol class="breadcrumb cucumber">
+    <li class="breadcrumb-item"><a routerLink="/admin">Admin</a></li>
+    <li class="breadcrumb-item">
+      <a routerLink="/admin/product_admin">Product</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+  </ol>
+</nav>
+<div class="container mt-5 col-lg-4">
+  <mat-card class="shadow">
+    <mat-card-header class="mb-3 bg-main-theme">
+      <mat-card-title class="text-white pb-3 form-title-size fw-light"
+        >Product</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Product Libelle</mat-label>
+          <input
+            matInput
+            placeholder="Product Libelle"
+            [(ngModel)]="product.productLibelle"
+            name="productLibelle"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Product Description</mat-label>
+          <input
+            matInput
+            placeholder="Product Description"
+            [(ngModel)]="product.productDescription"
+            name="productDescription"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="product.category" name="categories" [compareWith]="compareWithCategory">
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category.categoryName }}
+            </mat-option>
+            
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Promotion</mat-label>
+          <mat-select [(ngModel)]="product.promotion" name="promotions" [compareWith]="compareWithPromotion">
+            <mat-option *ngFor="let promotion of promotions" [value]="promotion">
+              {{ promotion.promotionName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Product Price</mat-label>
+          <input
+            matInput
+            placeholder="Product Price"
+            [(ngModel)]="product.productPrice"
+            name="promotionPercentage"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Product Discounted Price</mat-label>
+          <input
+            matInput
+            placeholder="Product Discounted Price"
+            [(ngModel)]="product.productDiscountedPrice"
+            name="productDiscountedPrice"
+          />
+        </mat-form-field>
+        <div>
+          <div class="float-end">
+            <button mat-raised-button color="primary" class="me-2">
+              Clear
+            </button>
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              *ngIf="!product.id"
+            >
+              Add Promotion
+            </button>
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              *ngIf="product.id"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
