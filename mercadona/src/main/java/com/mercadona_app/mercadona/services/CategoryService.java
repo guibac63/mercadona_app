@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.mercadona_app.mercadona.models.Category;
-import com.mercadona_app.mercadona.models.Product;
 import com.mercadona_app.mercadona.models.UserEntity;
 import com.mercadona_app.mercadona.repository.CategoryRepository;
 import com.mercadona_app.mercadona.repository.UserRepository;
@@ -35,9 +34,9 @@ public class CategoryService {
     
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-    if(auth != null){  
+    if (auth != null) {
       Optional<UserEntity> userOptional = userRepository.findByUsername(auth.getName());
-      if(userOptional.isPresent()) {
+      if (userOptional.isPresent()) {
         UserEntity user = userOptional.get();
         category.setUserEntity(user);
         category.setWritingDate(new Date());
@@ -47,7 +46,7 @@ public class CategoryService {
       } else {
         throw new RuntimeException("Utilisateur non trouvé pour le nom d'utilisateur : " + auth.getName());
       }
-    }else {
+    } else {
       return categoryRepository.save(category);
     }
   }

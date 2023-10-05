@@ -35,6 +35,7 @@ import { ProductAdminFormComponent } from './product-admin-form/product-admin-fo
 import { MatSelectModule } from '@angular/material/select';
 import { ShowProductDetailsComponent } from './show-product-details/show-product-details.component';
 import { MatSortModule } from '@angular/material/sort';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatNativeDateModule,
     MomentDateModule,
     MatSelectModule,
-    MatSortModule
+    MatSortModule,
+    MatGridListModule
   ],
   providers: [
     {

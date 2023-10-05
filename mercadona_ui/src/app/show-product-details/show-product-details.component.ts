@@ -4,6 +4,8 @@ import { ProductService } from '../_services/product-service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
+import { Product } from '../_model/product.model';
+import { ImageProcessingService } from '../_services/image-processing-service';
 
 
 @Component({
@@ -34,7 +36,8 @@ export class ShowProductDetailsComponent {
 
   public getAllProducts() {
     this.productService.getAllProducts().subscribe({
-      next: (response: any) => {
+      next: (response: Product[]) => {
+        console.log(response)
         this.productDetails = new MatTableDataSource(response);
         this.productDetails.paginator = this.paginator;
         this.productDetails.sort = this.sort;

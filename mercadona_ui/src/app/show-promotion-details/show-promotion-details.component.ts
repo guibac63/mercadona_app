@@ -4,6 +4,7 @@ import { PromotionService } from '../_services/promotion.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
+import { Promotion } from '../_model/promotion.model';
 
 @Component({
   selector: 'app-show-promotion-details',
@@ -35,7 +36,7 @@ export class ShowPromotionDetailsComponent {
 
   public getAllPromotions() {
     this.promotionService.getAllPromotions().subscribe({
-      next: (response: any) => {
+      next: (response: Promotion[]) => {
         this.promotionDetails = new MatTableDataSource(response);
         this.promotionDetails.paginator = this.paginator;
         this.promotionDetails.sort = this.sort;

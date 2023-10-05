@@ -48,6 +48,7 @@ public class Promotion {
   @JsonIgnore
   private Set<Product> products;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private UserEntity userEntity;

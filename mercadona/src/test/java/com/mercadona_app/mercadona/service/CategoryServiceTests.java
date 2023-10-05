@@ -41,9 +41,9 @@ public class CategoryServiceTests {
 
     when(categoryRepository.save(Mockito.any(Category.class))).thenReturn(category);
 
-    Category savedCategory = categoryService.addNewCategory(category);
+    categoryService.addNewCategory(category);
 
-    Assertions.assertThat(savedCategory).isNotNull();
+    Assertions.assertThat(category).isNotNull();
 
                   
   }

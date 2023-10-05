@@ -1,11 +1,9 @@
 package com.mercadona_app.mercadona.controllers;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mercadona_app.mercadona.models.Category;
-import com.mercadona_app.mercadona.models.UserEntity;
-import com.mercadona_app.mercadona.repository.UserRepository;
 import com.mercadona_app.mercadona.services.CategoryService;
 
 

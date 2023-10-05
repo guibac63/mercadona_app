@@ -1,4 +1,5 @@
 import { Category } from "./category.model";
+import { FileHandle } from "./file-handle.model";
 import { Promotion } from "./promotion.model";
 
 export interface Product {
@@ -9,4 +10,5 @@ export interface Product {
   productDiscountedPrice: number;
   category: Category;
   promotion: Promotion;
+  image: FileHandle
 }

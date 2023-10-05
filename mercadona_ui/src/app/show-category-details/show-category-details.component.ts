@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CategoryService } from '../_services/category.service';
 import { Router } from '@angular/router';
 import { MatSort, Sort } from '@angular/material/sort';
+import { Category } from '../_model/category.model';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class ShowCategoryDetailsComponent implements OnInit {
 
   public getAllCategories() {
     this.categoryService.getAllCategories().subscribe({
-      next: (response: any) => {
+      next: (response: Category[]) => {
         this.categoryDetails = new MatTableDataSource(response);
         this.categoryDetails.paginator = this.paginator;
         this.categoryDetails.sort = this.sort;

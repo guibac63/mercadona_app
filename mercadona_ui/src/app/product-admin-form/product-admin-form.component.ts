@@ -7,6 +7,8 @@ import { PromotionService } from '../_services/promotion.service';
 import { Category } from '../_model/category.model';
 import { Promotion } from '../_model/promotion.model';
 import { NgForm } from '@angular/forms';
+import { FileHandle } from '../_model/file-handle.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-admin-form',
@@ -22,6 +24,7 @@ export class ProductAdminFormComponent {
     productDiscountedPrice: 0,
     category: null,
     promotion: null,
+    image: null
   };
 
   categories: Category[];
@@ -37,7 +40,8 @@ export class ProductAdminFormComponent {
     private categoryService: CategoryService,
     private promotionService: PromotionService,
     private router: Router,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -83,10 +87,24 @@ export class ProductAdminFormComponent {
     });
   }
 
-  addProduct(productForm: NgForm) {
-    console.log(productForm.value);
+  onFileSelected(evt){
+    if(evt.target.files){
+     const file = evt.target.files[0]
 
-    this.productService.addProduct(this.product).subscribe({
+     const fileHandle: FileHandle = {
+      file: file,
+      url: this.sanitizer.bypassSecurityTrustUrl(
+        window.URL.createObjectURL(file)
+      )
+     }
+     this.product.image = fileHandle
+    }
+  }
+
+  addProduct(productForm: NgForm) {
+
+    const productFormData = this.prepareFormData(this.product)
+    this.productService.addProduct(productFormData).subscribe({
       next: (response: Product) => {
         // console.log(response);
         this.router.navigate(['/admin/product_admin']);
@@ -96,4 +114,28 @@ export class ProductAdminFormComponent {
       },
     });
   }
+
+  prepareFormData(product:Product): FormData {
+    
+    const formData = new FormData();
+    
+    formData.append(
+      'product',
+      new Blob([JSON.stringify(product)], {type:"application/json"})
+    );
+
+    if (product.image) {
+      formData.append(
+        'imageFile',
+        product.image.file,
+        product.image.file.name
+      );      
+    }
+    return formData;
+  }
+
+  removeImage(){
+    this.product.image = null;
+  }
+
 }

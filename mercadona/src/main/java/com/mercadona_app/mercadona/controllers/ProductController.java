@@ -1,16 +1,22 @@
 package com.mercadona_app.mercadona.controllers;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mercadona_app.mercadona.models.Image;
 import com.mercadona_app.mercadona.models.Product;
 import com.mercadona_app.mercadona.services.ProductService;
 
@@ -23,10 +29,33 @@ public class ProductController {
   @Autowired
   private ProductService productService;
 
-  @PostMapping("add")
-  public Product addNewProduct(@RequestBody Product product) {
-    return productService.addNewProduct(product);
+  @PostMapping(value = {"add"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+  public Product addNewProduct(@RequestPart("product") Product product, @RequestPart(name = "imageFile", required = false) MultipartFile file) {
+    //  
+    try {
+      if(file != null){
+        Image image = uploadImage(file);
+        product.setImage(image);
+      }
+      return productService.addNewProduct(product);
+    } catch(Exception e){
+      System.out.println(e.getMessage());
+      return null;
+    }
   }
+
+  public Image uploadImage(MultipartFile file) throws IOException {
+      if(file != null){
+        Image image = new Image();
+        image.setImageName(file.getOriginalFilename());
+        image.setType(file.getContentType());
+        image.setPicByte(file.getBytes());
+        return image;
+      }else{
+        return null;
+      }
+  }
+
 
   @GetMapping({"getAll"})
   public List<Product> getAllProducts(){
