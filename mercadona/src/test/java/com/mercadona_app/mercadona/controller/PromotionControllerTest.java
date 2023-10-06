@@ -69,7 +69,7 @@ public class PromotionControllerTest {
         .content(objectMapper.writeValueAsString(promotion)));
 
     response.andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.promotionName", CoreMatchers.is(promotion.getPromotionName())))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.data.promotionName", CoreMatchers.is(promotion.getPromotionName())))
         .andDo(MockMvcResultHandlers.print());
 
   }
@@ -113,7 +113,7 @@ public class PromotionControllerTest {
     List<String> verifList = Lists.newArrayList("Promotion one", "Promotion two");
 
     response.andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$[*].promotionName", CoreMatchers.equalTo(verifList)));
+        .andExpect(MockMvcResultMatchers.jsonPath("$.data.[*].promotionName", CoreMatchers.equalTo(verifList)));
 
   }
 

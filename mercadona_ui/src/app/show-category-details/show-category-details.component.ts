@@ -1,11 +1,11 @@
-import { Component,OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoryService } from '../_services/category.service';
 import { Router } from '@angular/router';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Category } from '../_model/category.model';
-
+import { UserAuthService } from '../_services/user-auth.service';
 
 @Component({
   selector: 'app-show-category-details',
@@ -21,7 +21,8 @@ export class ShowCategoryDetailsComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private userAuthService: UserAuthService
   ) {}
 
   ngOnInit(): void {
@@ -30,14 +31,20 @@ export class ShowCategoryDetailsComponent implements OnInit {
 
   public getAllCategories() {
     this.categoryService.getAllCategories().subscribe({
-      next: (response: Category[]) => {
-        this.categoryDetails = new MatTableDataSource(response);
-        this.categoryDetails.paginator = this.paginator;
-        this.categoryDetails.sort = this.sort;
-        const sortState: Sort = { active: 'id', direction: 'asc' };
-        this.sort.active = sortState.active;
-        this.sort.direction = sortState.direction;
-        this.sort.sortChange.emit(sortState);
+      next: (response: any) => {
+        console.log(response.message);
+        if (response.message === 'JWT was expired or incorrect') {
+          this.userAuthService.clear();
+          this.router.navigate(['/login']);
+        } else {
+          this.categoryDetails = new MatTableDataSource(response.data);
+          this.categoryDetails.paginator = this.paginator;
+          this.categoryDetails.sort = this.sort;
+          const sortState: Sort = { active: 'id', direction: 'asc' };
+          this.sort.active = sortState.active;
+          this.sort.direction = sortState.direction;
+          this.sort.sortChange.emit(sortState);
+        }
       },
       error: (error) => {
         console.log(error);

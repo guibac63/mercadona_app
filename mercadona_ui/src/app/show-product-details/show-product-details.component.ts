@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Product } from '../_model/product.model';
-import { ImageProcessingService } from '../_services/image-processing-service';
+import { UserAuthService } from '../_services/user-auth.service';
+
 
 
 @Component({
@@ -28,7 +29,10 @@ export class ShowProductDetailsComponent {
     'edit',
   ];
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(
+    private productService: ProductService, 
+    private router: Router, 
+    private userAuthService: UserAuthService) {}
 
   ngOnInit(): void {
     this.getAllProducts();
@@ -36,15 +40,21 @@ export class ShowProductDetailsComponent {
 
   public getAllProducts() {
     this.productService.getAllProducts().subscribe({
-      next: (response: Product[]) => {
-        console.log(response)
-        this.productDetails = new MatTableDataSource(response);
-        this.productDetails.paginator = this.paginator;
-        this.productDetails.sort = this.sort;
-        const sortState: Sort = { active: 'id', direction: 'asc' };
-        this.sort.active = sortState.active;
-        this.sort.direction = sortState.direction;
-        this.sort.sortChange.emit(sortState);
+      next: (response: any) => {
+             console.log(response.message);
+        if (response.message === 'JWT was expired or incorrect') {
+          this.userAuthService.clear();
+          this.router.navigate(['/login']);
+        }else{
+          this.productDetails = new MatTableDataSource(response.data);
+          this.productDetails.paginator = this.paginator;
+          this.productDetails.sort = this.sort;
+          const sortState: Sort = { active: 'id', direction: 'asc' };
+          this.sort.active = sortState.active;
+          this.sort.direction = sortState.direction;
+          this.sort.sortChange.emit(sortState);
+        }
+        
       },
       error: (error) => {
         console.log(error);
@@ -55,7 +65,6 @@ export class ShowProductDetailsComponent {
   deleteProduct(productId) {
     this.productService.deleteProduct(productId).subscribe({
       next: (response) => {
-        console.log(response);
         this.getAllProducts();
       },
       error: (error) => {

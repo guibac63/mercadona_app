@@ -36,9 +36,13 @@ export class PromotionAdminFormComponent {
 
   addPromotion(promotionForm: NgForm) {
     this.promotionService.addPromotion(this.promotion).subscribe({
-      next: (response: Promotion) => {
-        console.log(response);
-        this.router.navigate(['/admin/promotion_admin']);
+      next: (response: any) => {
+        if(response.status == 200){
+          console.log(response)
+          this.router.navigate(['/admin/promotion_admin']);
+        }else{
+          console.log(response.message);
+        }
       },
       error: (error) => {
         console.log(error);

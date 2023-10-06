@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mercadona_app.mercadona.models.Image;
 import com.mercadona_app.mercadona.models.Product;
+import com.mercadona_app.mercadona.models.Promotion;
+import com.mercadona_app.mercadona.response.ResponseHandler;
 import com.mercadona_app.mercadona.services.ProductService;
 
 // import java.util.Map;
@@ -30,17 +34,17 @@ public class ProductController {
   private ProductService productService;
 
   @PostMapping(value = {"add"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-  public Product addNewProduct(@RequestPart("product") Product product, @RequestPart(name = "imageFile", required = false) MultipartFile file) {
+  public ResponseEntity<Object> addNewProduct(@RequestPart("product") Product product, @RequestPart(name = "imageFile", required = false) MultipartFile file) {
     //  
     try {
       if(file != null){
         Image image = uploadImage(file);
         product.setImage(image);
       }
-      return productService.addNewProduct(product);
-    } catch(Exception e){
-      System.out.println(e.getMessage());
-      return null;
+      Product result = productService.addNewProduct(product);
+      return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, result);
+    } catch (Exception e) {
+      return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
     }
   }
 
@@ -56,10 +60,14 @@ public class ProductController {
       }
   }
 
-
   @GetMapping({"getAll"})
-  public List<Product> getAllProducts(){
-    return productService.getAllProducts();
+  public ResponseEntity<Object> getAllProducts(){
+    try{
+      List<Product> result = productService.getAllProducts();
+      return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, result);
+    } catch (Exception e) {
+      return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+    }
   }
 
   @GetMapping({"get/{id}"})
@@ -68,8 +76,13 @@ public class ProductController {
   }
 
   @DeleteMapping({"delete/{id}"})
-  public void deleteProductDetails(@PathVariable("id") Integer id) {
+  public ResponseEntity<Object> deleteProductDetails(@PathVariable("id") Integer id) {
+    try {
       productService.deleteProductDetails(id);
+      return ResponseHandler.generateResponse("Successfully removed data!", HttpStatus.OK, null);
+    } catch (Exception e) {
+      return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+    }    
   }
 
 }

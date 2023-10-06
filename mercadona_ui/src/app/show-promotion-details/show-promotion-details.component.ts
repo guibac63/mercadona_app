@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Promotion } from '../_model/promotion.model';
+import { UserAuthService } from '../_services/user-auth.service';
 
 @Component({
   selector: 'app-show-promotion-details',
@@ -27,7 +28,8 @@ export class ShowPromotionDetailsComponent {
 
   constructor(
     private promotionService: PromotionService,
-    private router: Router
+    private router: Router,
+    private userAuthService: UserAuthService
   ) {}
 
   ngOnInit(): void {
@@ -36,14 +38,19 @@ export class ShowPromotionDetailsComponent {
 
   public getAllPromotions() {
     this.promotionService.getAllPromotions().subscribe({
-      next: (response: Promotion[]) => {
-        this.promotionDetails = new MatTableDataSource(response);
-        this.promotionDetails.paginator = this.paginator;
-        this.promotionDetails.sort = this.sort;
-        const sortState: Sort = { active: 'id', direction: 'asc' };
-        this.sort.active = sortState.active;
-        this.sort.direction = sortState.direction;
-        this.sort.sortChange.emit(sortState);
+      next: (response: any) => {
+        if (response.message === 'JWT was expired or incorrect') {
+          this.userAuthService.clear();
+          this.router.navigate(['/login']);
+        } else {
+          this.promotionDetails = new MatTableDataSource(response.data);
+          this.promotionDetails.paginator = this.paginator;
+          this.promotionDetails.sort = this.sort;
+          const sortState: Sort = { active: 'id', direction: 'asc' };
+          this.sort.active = sortState.active;
+          this.sort.direction = sortState.direction;
+          this.sort.sortChange.emit(sortState);
+        }
       },
       error: (error) => {
         console.log(error);

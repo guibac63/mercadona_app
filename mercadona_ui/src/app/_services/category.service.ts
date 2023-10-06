@@ -15,7 +15,7 @@ export class CategoryService {
   }
 
   public getAllCategories() {
-    return this.httpClient.get<Category[]>("http://localhost:9090/api/category/getAll")
+    return this.httpClient.get<Category[]>('http://localhost:9090/api/category/getAll');
   }
 
   public deleteCategory(categoryId: number) {

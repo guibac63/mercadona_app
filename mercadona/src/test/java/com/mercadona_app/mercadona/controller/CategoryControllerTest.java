@@ -52,8 +52,9 @@ public class CategoryControllerTest {
                             .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(category)));
   
+
     response.andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.categoryName",CoreMatchers.is(category.getCategoryName())))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data.categoryName",CoreMatchers.is(category.getCategoryName())))
             .andDo(MockMvcResultHandlers.print());
 
   }
@@ -77,7 +78,7 @@ public class CategoryControllerTest {
     List <String> verifList = Lists.newArrayList("Fruits","Légumes");
 
     response.andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$[*].categoryName",CoreMatchers.equalTo(verifList)));
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data.[*].categoryName",CoreMatchers.equalTo(verifList)));
 
   }
 

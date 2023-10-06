@@ -3,6 +3,7 @@ package com.mercadona_app.mercadona.models;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+
+import org.hibernate.annotations.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,9 +33,10 @@ import lombok.NoArgsConstructor;
 public class Promotion {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)  
+  @GeneratedValue(strategy = GenerationType.IDENTITY) 
   private int id;
 
+  @Column(unique=true)
   private String promotionName;
 
   private Date beginningDate; 

@@ -66,8 +66,7 @@ export class ProductAdminFormComponent {
   public getAllCategories() {
     this.categoryService.getAllCategories().subscribe({
       next: (response: any) => {
-        this.categories = response;
-        console.log(response);
+        this.categories = response.data;
       },
       error: (error) => {
         console.log(error);
@@ -78,8 +77,7 @@ export class ProductAdminFormComponent {
   public getAllPromotions() {
     this.promotionService.getAllPromotions().subscribe({
       next: (response: any) => {
-        this.promotions = response;
-        console.log(response);
+        this.promotions = response.data;
       },
       error: (error) => {
         console.log(error);
@@ -105,9 +103,13 @@ export class ProductAdminFormComponent {
 
     const productFormData = this.prepareFormData(this.product)
     this.productService.addProduct(productFormData).subscribe({
-      next: (response: Product) => {
-        // console.log(response);
-        this.router.navigate(['/admin/product_admin']);
+      next: (response: any) => {
+        if (response.status == 200) {
+          console.log(response);
+          this.router.navigate(['/admin/product_admin']);
+        } else {
+          console.log(response.message);
+        }       
       },
       error: (error) => {
         console.log(error);

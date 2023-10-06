@@ -31,9 +31,13 @@ export class CategoryAdminFormComponent implements OnInit {
   addCategory(categoryForm: NgForm) {
 
     this.categoryService.addCategory(this.category).subscribe({
-        next: (response:Category) => {
-          console.log(response);
-          this.router.navigate(['/admin/category_admin'])
+        next: (response:any) => {
+          if(response.status == 200){
+            console.log(response)
+            this.router.navigate(['/admin/category_admin'])
+          }else{
+            console.log(response.message)
+          }
 
         },
         error: (error) => {
