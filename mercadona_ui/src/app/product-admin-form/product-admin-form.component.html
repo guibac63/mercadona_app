@@ -25,16 +25,28 @@
                 placeholder="Product Libelle"
                 [(ngModel)]="product.productLibelle"
                 name="productLibelle"
+                minlength="2"
+                #productLibelle="ngModel"
+                required
+                type="text"
               />
+              <mat-error *ngIf="productLibelle.errors?.['required']">Product name is required</mat-error>
+              <mat-error *ngIf="productLibelle.errors?.['minlength']">Product name must be at least 2 characters long.</mat-error> 
             </mat-form-field>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Product Description</mat-label>
-              <input
+              <textarea
                 matInput
                 placeholder="Product Description"
                 [(ngModel)]="product.productDescription"
                 name="productDescription"
-              />
+                #productDescription="ngModel"
+                minlength="10"
+                required
+                type="text"
+              ></textarea>
+              <mat-error *ngIf="productDescription.errors?.['required']">Product description is required</mat-error>
+              <mat-error *ngIf="productDescription.errors?.['minlength']">Product description must be at least 10 characters long.</mat-error> 
             </mat-form-field>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Category</mat-label>
@@ -42,6 +54,8 @@
                 [(ngModel)]="product.category"
                 name="categories"
                 [compareWith]="compareWithCategory"
+                required
+                #productCategory="ngModel"
               >
                 <mat-option
                   *ngFor="let category of categories"
@@ -50,6 +64,7 @@
                   {{ category.categoryName }}
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="productCategory.errors?.['required']">Category is required</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Promotion</mat-label>
@@ -57,6 +72,8 @@
                 [(ngModel)]="product.promotion"
                 name="promotions"
                 [compareWith]="compareWithPromotion"
+                #productPromotion="ngModel"
+                required
               >
                 <mat-option
                   *ngFor="let promotion of promotions"
@@ -65,6 +82,7 @@
                   {{ promotion.promotionName }}
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="productPromotion.errors?.['required']">Promotion is required</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Product Price</mat-label>
@@ -72,8 +90,13 @@
                 matInput
                 placeholder="Product Price"
                 [(ngModel)]="product.productPrice"
-                name="promotionPercentage"
+                name="productPrice"
+                type="number"
+                #productPrice="ngModel"
+                required
+                min="0.1"
               />
+              <mat-error *ngIf="productPrice.errors?.min">Minimal Product Price is required</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Product Discounted Price</mat-label>
@@ -82,25 +105,19 @@
                 placeholder="Product Discounted Price"
                 [(ngModel)]="product.productDiscountedPrice"
                 name="productDiscountedPrice"
+                disabled
+                type="number"
               />
             </mat-form-field>
           </div>
           <div class="container col-md-6">
-            <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Product Discounted Price</mat-label>
-              <input
-                matInput
-                placeholder="Product Discounted Price"
-                [(ngModel)]="product.productDiscountedPrice"
-                name="productDiscountedPrice"
-              />
-            </mat-form-field> -->
             <input
               type="file"
               value="select"
               #select
-              (change)="onFileSelected($event)"
+              (change)="onFileSelected($event)"            
             />
+            <mat-error *ngIf="!product.image">Image is required</mat-error>
             <div *ngIf="product.image" class="my-2 mx-5">
               <div class="row">
                     <div style="position: relative;">
@@ -114,14 +131,15 @@
 
         <div>
           <div class="float-end">
-            <button mat-raised-button color="primary" class="me-2">
-              Clear
+            <button mat-raised-button color="primary" class="me-3" routerLink="/admin/product_admin">
+              <span class="material-icons"> backspace </span>
             </button>
             <button
               type="submit"
               mat-raised-button
               color="primary"
               *ngIf="!product.id"
+              [disabled]="productForm.form.status==='INVALID' || !product.image"
             >
               Add Product
             </button>
@@ -130,6 +148,7 @@
               mat-raised-button
               color="primary"
               *ngIf="product.id"
+              [disabled]="productForm.form.status==='INVALID' || !product.image"
             >
               Update
             </button>

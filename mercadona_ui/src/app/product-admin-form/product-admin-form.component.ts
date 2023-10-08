@@ -100,21 +100,23 @@ export class ProductAdminFormComponent {
   }
 
   addProduct(productForm: NgForm) {
-
-    const productFormData = this.prepareFormData(this.product)
-    this.productService.addProduct(productFormData).subscribe({
-      next: (response: any) => {
-        if (response.status == 200) {
-          console.log(response);
-          this.router.navigate(['/admin/product_admin']);
-        } else {
-          console.log(response.message);
-        }       
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    
+    if(productForm.valid){
+      const productFormData = this.prepareFormData(this.product)
+      this.productService.addProduct(productFormData).subscribe({
+        next: (response: any) => {
+          if (response.status == 200) {
+            console.log(response);
+            this.router.navigate(['/admin/product_admin']);
+          } else {
+            console.log(response.message);
+          }       
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    }
   }
 
   prepareFormData(product:Product): FormData {

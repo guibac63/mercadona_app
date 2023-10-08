@@ -36,6 +36,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ShowProductDetailsComponent } from './show-product-details/show-product-details.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { DateRangeValidatorDirective } from './_directives/date-range-validator.directive';
+
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     ShowPromotionDetailsComponent,
     ProductAdminFormComponent,
     ShowProductDetailsComponent,
+    DateRangeValidatorDirective,
   ],
   imports: [
     BrowserModule,

@@ -14,35 +14,43 @@ export class CategoryAdminFormComponent implements OnInit {
     id: 0,
     categoryName: '',
   };
+  alreadyExistCategoryError: boolean = false;
 
-  constructor(private categoryService: CategoryService,
-              private router: Router,
-              private actRoute:ActivatedRoute) {}
+  constructor(
+    private categoryService: CategoryService,
+    private router: Router,
+    private actRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-
-    if(this.actRoute.snapshot.params.id != undefined){
-      this.actRoute.data.subscribe(data=> {
-        this.category = data.routeCategoryResolver
-      })
+    if (this.actRoute.snapshot.params.id != undefined) {
+      this.actRoute.data.subscribe((data) => {
+        this.category = data.routeCategoryResolver;
+      });
     }
   }
 
   addCategory(categoryForm: NgForm) {
-
-    this.categoryService.addCategory(this.category).subscribe({
-        next: (response:any) => {
-          if(response.status == 200){
-            console.log(response)
-            this.router.navigate(['/admin/category_admin'])
-          }else{
-            console.log(response.message)
+    if(categoryForm.valid){
+      this.categoryService.addCategory(this.category).subscribe({
+        next: (response: any) => {
+          if (response.status == 200) {
+            console.log(response);
+            this.router.navigate(['/admin/category_admin']);
+          } else {
+            if (response.message.includes('ConstraintViolationException')) {
+              this.alreadyExistCategoryError = true;
+            }
           }
-
         },
         error: (error) => {
           console.log(error);
         },
-  });
+      });
+    }
+  }
+
+  resetNoExistErrors(){
+    this.alreadyExistCategoryError = false;
   }
 }

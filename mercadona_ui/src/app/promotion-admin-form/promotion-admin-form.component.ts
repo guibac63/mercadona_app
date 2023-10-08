@@ -3,7 +3,7 @@ import { Promotion } from '../_model/promotion.model';
 import { PromotionService } from '../_services/promotion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-
+import { DateRangeValidatorDirective } from '../_directives/date-range-validator.directive';
 
 @Component({
   selector: 'app-promotion-admin-form',
@@ -15,15 +15,16 @@ export class PromotionAdminFormComponent {
   promotion: Promotion = {
     id: 0,
     promotionName: '',
-    beginningDate: null,
-    endingDate: null,
+    beginningDate: this.currentDate,
+    endingDate: this.currentDate,
     promotionPercentage: null,
   };
+  alreadyExistPromotionError: boolean = false;
 
   constructor(
     private promotionService: PromotionService,
     private router: Router,
-    private actRoute: ActivatedRoute,
+    private actRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -35,18 +36,26 @@ export class PromotionAdminFormComponent {
   }
 
   addPromotion(promotionForm: NgForm) {
-    this.promotionService.addPromotion(this.promotion).subscribe({
-      next: (response: any) => {
-        if(response.status == 200){
-          console.log(response)
-          this.router.navigate(['/admin/promotion_admin']);
-        }else{
-          console.log(response.message);
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    if(promotionForm.valid){
+      this.promotionService.addPromotion(this.promotion).subscribe({
+        next: (response: any) => {
+          if (response.status == 200) {
+            console.log(response);
+            this.router.navigate(['/admin/promotion_admin']);
+          } else {
+            if (response.message.includes('ConstraintViolationException')) {
+              this.alreadyExistPromotionError = true;
+            }
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    }
+  }
+
+  resetNoExistErrors() {
+    this.alreadyExistPromotionError = false;
   }
 }

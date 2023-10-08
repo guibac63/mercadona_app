@@ -15,15 +15,26 @@
       >
     </mat-card-header>
     <mat-card-content>
-      <form #promotionForm="ngForm" (ngSubmit)="addPromotion(promotionForm)">
+      <form
+        #promotionForm="ngForm"
+        (ngSubmit)="promotionForm.form.valid && addPromotion(promotionForm)"
+        [appDateRangeValidator]="['beginningDate', 'endingDate']"
+      >
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Promotion name</mat-label>
           <input
             matInput
+            type="text"
             placeholder="Promotion name"
             [(ngModel)]="promotion.promotionName"
             name="promotionName"
+            required
+            minlength="2"
+            #promotionName="ngModel"
+            (click)="resetNoExistErrors()"
           />
+          <mat-error *ngIf="promotionName.errors?.['required']">Promotion name is required</mat-error>
+          <mat-error *ngIf="promotionName.errors?.['minlength']">Promotion name must be at least 2 characters long.</mat-error>
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Beginning date</mat-label>
@@ -31,17 +42,29 @@
             matInput
             disabled
             [min]="currentDate"
+            [value]="currentDate"
             [matDatepicker]="pickerBeginningDate"
             placeholder="Beginning date"
             [(ngModel)]="promotion.beginningDate"
             name="beginningDate"
+            #beginningDate="ngModel"
+            required
           />
           <mat-datepicker-toggle
             matIconSuffix
             [for]="pickerBeginningDate"
             [disabled]="false"
           ></mat-datepicker-toggle>
-          <mat-datepicker #pickerBeginningDate [disabled]="false"></mat-datepicker>
+          <mat-datepicker
+            #pickerBeginningDate
+            [disabled]="false"
+          ></mat-datepicker>
+          <mat-error *ngIf="beginningDate.errors?.['required']">Beginning date is required</mat-error>
+          <div *ngIf="promotionForm.hasError('dateRangeError')">
+            <mat-error
+              >End date must be greater than or equal to the start date</mat-error
+            >
+          </div>
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Ending date</mat-label>
@@ -52,6 +75,8 @@
             placeholder="Ending date"
             [(ngModel)]="promotion.endingDate"
             name="endingDate"
+            #endingDate="ngModel"
+            required
           />
           <!-- <mat-hint>dd/mm/yyyy</mat-hint> -->
           <mat-datepicker-toggle
@@ -60,26 +85,43 @@
             [disabled]="false"
           ></mat-datepicker-toggle>
           <mat-datepicker [disabled]="false" #pickerEndingDate></mat-datepicker>
+          <mat-error *ngIf="endingDate.errors?.['required']">Ending date is required</mat-error>
+          <div *ngIf="promotionForm.hasError('dateRangeError')">
+            <mat-error
+              >End date must be greater than or equal to the start date</mat-error
+            >
+          </div>
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Promotion percentage (in %)</mat-label>
           <input
             matInput
+            type="number"
             placeholder="Promotion percentage (in %)"
             [(ngModel)]="promotion.promotionPercentage"
             name="promotionPercentage"
+            #promotionPercentage="ngModel"
+            required
+            min="1"
+            max="99"
           />
+          <mat-error *ngIf="promotionPercentage.errors?.['required']">Promotion percentage is required</mat-error>
+          <mat-error *ngIf="promotionPercentage.errors?.min|| promotionPercentage.errors?.max">Promotion percentage must be between 1 and 99</mat-error>
         </mat-form-field>
-        <div>
+        <div class="bad-credentials-height d-flex justify-content-center">
+          <div class="alert alert-danger bad-credentials-height w-100 text text-center" role="alert" *ngIf="alreadyExistPromotionError">This promotion already exists</div>
+        </div>
+        <div class="mt-4">
           <div class="float-end">
-            <button mat-raised-button color="primary" class="me-2">
-              Clear
+            <button mat-raised-button color="primary" class="me-3" routerLink="/admin/promotion_admin">
+              <span class="material-icons"> backspace </span>
             </button>
             <button
               type="submit"
               mat-raised-button
               color="primary"
               *ngIf="!promotion.id"
+              [disabled]="promotionForm.form.status==='INVALID'"
             >
               Add Promotion
             </button>
@@ -88,6 +130,7 @@
               mat-raised-button
               color="primary"
               *ngIf="promotion.id"
+              [disabled]="promotionForm.form.status==='INVALID'"
             >
               Update
             </button>
