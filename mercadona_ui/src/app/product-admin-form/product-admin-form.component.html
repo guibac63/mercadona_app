@@ -73,7 +73,6 @@
                 name="promotions"
                 [compareWith]="compareWithPromotion"
                 #productPromotion="ngModel"
-                required
               >
                 <mat-option
                   *ngFor="let promotion of promotions"
@@ -82,7 +81,6 @@
                   {{ promotion.promotionName }}
                 </mat-option>
               </mat-select>
-              <mat-error *ngIf="productPromotion.errors?.['required']">Promotion is required</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Product Price</mat-label>

@@ -16,11 +16,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mercadona_app.mercadona.controllers.categoryController;
 import com.mercadona_app.mercadona.controllers.promotionController;
-import com.mercadona_app.mercadona.models.Category;
 import com.mercadona_app.mercadona.models.Promotion;
-import com.mercadona_app.mercadona.services.CategoryService;
 import com.mercadona_app.mercadona.services.PromotionService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

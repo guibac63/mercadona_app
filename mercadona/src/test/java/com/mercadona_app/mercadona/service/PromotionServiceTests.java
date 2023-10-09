@@ -89,10 +89,10 @@ public class PromotionServiceTests {
 
     when(promotionRepository.findAll()).thenReturn(promotionList);
 
-    List<Promotion> savedCategoryList = promotionService.getAllPromotions();
+    List<Promotion> savedPromotionList = promotionService.getAllPromotions();
 
-    Assertions.assertThat(savedCategoryList).isNotNull();
-    assertEquals(2, savedCategoryList.size());
+    Assertions.assertThat(savedPromotionList).isNotNull();
+    assertEquals(2, savedPromotionList.size());
     verify(promotionRepository, times(1)).findAll();
 
   }

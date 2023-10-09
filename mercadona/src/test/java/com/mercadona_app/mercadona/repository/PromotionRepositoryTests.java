@@ -22,7 +22,8 @@ import com.mercadona_app.mercadona.models.Promotion;
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class PromotionRepositoryTests {
-   @Autowired
+  
+  @Autowired
   private PromotionRepository promotionRepository;
 
  @Test
