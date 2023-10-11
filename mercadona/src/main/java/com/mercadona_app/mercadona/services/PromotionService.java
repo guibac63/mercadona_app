@@ -33,22 +33,14 @@ public class PromotionService {
   public Promotion addNewPromotion(Promotion promotion){
 
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-    if(auth != null){  
-      Optional<UserEntity> userOptional = userRepository.findByUsername(auth.getName());
-      if(userOptional.isPresent()) {
-        UserEntity user = userOptional.get();
-        promotion.setUserEntity(user);
-        promotion.setWritingDate(new Date());
-        Promotion savedPromotion = promotionRepository.save(promotion);
-        savedPromotion.setUserEntity(null);
-        return savedPromotion;
-      } else {
-        throw new RuntimeException("Utilisateur non trouvé pour le nom d'utilisateur : " + auth.getName());
-      }
-    }else {
-      return promotionRepository.save(promotion);
-    }
+    if(auth != null){
+      String username = auth.getName();  
+      Optional<UserEntity> userOptional = userRepository.findByUsername(username);
+      UserEntity user = userOptional.get();
+      promotion.setUserEntity(user);
+    } 
+    promotion.setWritingDate(new Date());
+    return promotionRepository.save(promotion);
   }
 
   public List<Promotion> getAllPromotions() {

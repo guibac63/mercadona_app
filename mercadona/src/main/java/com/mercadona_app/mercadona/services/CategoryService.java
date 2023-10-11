@@ -33,22 +33,14 @@ public class CategoryService {
   public Category addNewCategory(Category category) {
     
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
     if (auth != null) {
-      Optional<UserEntity> userOptional = userRepository.findByUsername(auth.getName());
-      if (userOptional.isPresent()) {
-        UserEntity user = userOptional.get();
-        category.setUserEntity(user);
-        category.setWritingDate(new Date());
-        Category savedCategory = categoryRepository.save(category);
-        savedCategory.setUserEntity(null);
-        return savedCategory;
-      } else {
-        throw new RuntimeException("Utilisateur non trouvé pour le nom d'utilisateur : " + auth.getName());
-      }
-    } else {
-      return categoryRepository.save(category);
+      String username = auth.getName();
+      Optional<UserEntity> userOptional = userRepository.findByUsername(username);
+      UserEntity user = userOptional.get();
+      category.setUserEntity(user);
     }
+    category.setWritingDate(new Date());
+    return categoryRepository.save(category);
   }
 
 

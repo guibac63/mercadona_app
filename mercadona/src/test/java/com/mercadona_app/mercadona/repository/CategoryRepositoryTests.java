@@ -1,5 +1,8 @@
 package com.mercadona_app.mercadona.repository;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mercadona_app.mercadona.dto.AuthResponseDTO;
 import com.mercadona_app.mercadona.models.Category;
 
 @ComponentScan(basePackages = "com.mercadona_app.mercadona.security")
@@ -95,5 +99,4 @@ public class CategoryRepositoryTests {
 
   Assertions.assertThat(categoryReturn).isEmpty();
   }
-
 }

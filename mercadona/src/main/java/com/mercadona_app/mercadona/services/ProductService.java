@@ -33,22 +33,14 @@ public class ProductService {
   public Product addNewProduct(Product product) {
       
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-    if(auth != null){  
-      Optional<UserEntity> userOptional = userRepository.findByUsername(auth.getName());
-      if(userOptional.isPresent()) {
-        UserEntity user = userOptional.get();
-        product.setUserEntity(user);
-        product.setWritingDate(new Date());
-        Product savedProduct = productRepository.save(product);
-        savedProduct.setUserEntity(null);
-        return savedProduct;
-      } else {
-        throw new RuntimeException("Utilisateur non trouvé pour le nom d'utilisateur : " + auth.getName());
-      }
-    }else {
-      return productRepository.save(product);
-    }   
+    if (auth != null) {
+      String username = auth.getName();
+      Optional<UserEntity> userOptional = userRepository.findByUsername(username);
+      UserEntity user = userOptional.get();
+      product.setUserEntity(user);
+    }
+    product.setWritingDate(new Date());
+    return productRepository.save(product);
   }
 
   public List<Product> getAllProducts() {

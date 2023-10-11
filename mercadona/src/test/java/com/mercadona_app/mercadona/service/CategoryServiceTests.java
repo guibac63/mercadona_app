@@ -1,5 +1,6 @@
 package com.mercadona_app.mercadona.service;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
@@ -18,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
+import com.mercadona_app.mercadona.dto.AuthResponseDTO;
 import com.mercadona_app.mercadona.models.Category;
 import com.mercadona_app.mercadona.repository.CategoryRepository;
 import com.mercadona_app.mercadona.services.CategoryService;
@@ -106,8 +107,5 @@ public class CategoryServiceTests {
     assertAll(() -> categoryService.deleteCategoryDetails(categoryId));
                   
   }
-  
-
-
 
 }

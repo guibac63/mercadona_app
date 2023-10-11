@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,9 +20,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithSecurityContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.mercadona_app.mercadona.models.Promotion;
+import com.mercadona_app.mercadona.models.UserEntity;
 import com.mercadona_app.mercadona.repository.PromotionRepository;
+import com.mercadona_app.mercadona.repository.UserRepository;
 import com.mercadona_app.mercadona.services.PromotionService;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,10 +39,15 @@ public class PromotionServiceTests {
   @Mock
   private PromotionRepository promotionRepository;
 
+  @Mock
+  private UserRepository userRepository;
+
   @InjectMocks
   private PromotionService promotionService;
 
+
   @Test
+  @WithMockUser
   public void PromotionService_CreatePromotion_ReturnsPromotion() {
     
     Date beginningDate = new Date();
