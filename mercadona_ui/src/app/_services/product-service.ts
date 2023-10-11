@@ -37,4 +37,18 @@ export class ProductService {
       return of([]);
     }
   }
+
+  public modifyProductDiscountedPrice(promotionId: any) {
+    console.log("dans service!!")
+    if (promotionId) {
+      console.log('dans service avec ID!!');
+      return this.httpClient.get(
+        'http://localhost:9090/api/product/modifyProductDiscountedPrice/' +
+          promotionId
+      );
+    } else {
+       console.log('probleme!!');
+      return of([]);
+    }
+  }
 }

@@ -4,6 +4,8 @@ import { PromotionService } from '../_services/promotion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { DateRangeValidatorDirective } from '../_directives/date-range-validator.directive';
+import { Product } from '../_model/product.model';
+import { ProductService } from '../_services/product-service';
 
 @Component({
   selector: 'app-promotion-admin-form',
@@ -24,7 +26,8 @@ export class PromotionAdminFormComponent {
   constructor(
     private promotionService: PromotionService,
     private router: Router,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +44,16 @@ export class PromotionAdminFormComponent {
         next: (response: any) => {
           if (response.status == 200) {
             console.log(response);
+            this.productService
+              .modifyProductDiscountedPrice(response.data.id)
+              .subscribe({
+                next: (response: any) => {
+                  console.log(response)
+                },
+                error: (error) => {
+                  console.log(error);
+                },
+              });
             this.router.navigate(['/admin/promotion_admin']);
           } else {
             if (response.message.includes('ConstraintViolationException')) {
