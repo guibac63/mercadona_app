@@ -33,6 +33,7 @@
               <mat-error *ngIf="productLibelle.errors?.['required']">Product name is required</mat-error>
               <mat-error *ngIf="productLibelle.errors?.['minlength']">Product name must be at least 2 characters long.</mat-error> 
             </mat-form-field>
+            <div class="mt-2"></div>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Product Description</mat-label>
               <textarea
@@ -48,6 +49,7 @@
               <mat-error *ngIf="productDescription.errors?.['required']">Product description is required</mat-error>
               <mat-error *ngIf="productDescription.errors?.['minlength']">Product description must be at least 10 characters long.</mat-error> 
             </mat-form-field>
+            <div class="mt-2"></div>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Category</mat-label>
               <mat-select
@@ -66,22 +68,7 @@
               </mat-select>
               <mat-error *ngIf="productCategory.errors?.['required']">Category is required</mat-error>
             </mat-form-field>
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Promotion</mat-label>
-              <mat-select
-                [(ngModel)]="product.promotion"
-                name="promotions"
-                [compareWith]="compareWithPromotion"
-                #productPromotion="ngModel"
-              >
-                <mat-option
-                  *ngFor="let promotion of promotions"
-                  [value]="promotion"
-                >
-                  {{ promotion.promotionName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="mt-2"></div>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Product Price</mat-label>
               <input
@@ -93,8 +80,28 @@
                 #productPrice="ngModel"
                 required
                 min="0.1"
+                (keyup)="changeDiscountedPrice($event)"
               />
               <mat-error *ngIf="productPrice.errors?.min">Minimal Product Price is required</mat-error>
+            </mat-form-field>
+            <div class="mt-2"></div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Promotion</mat-label>
+              <mat-select
+                [(ngModel)]="product.promotion"
+                name="promotions"
+                [compareWith]="compareWithPromotion"
+                #productPromotion="ngModel"
+                (selectionChange)="changeDiscountedPrice($event)"
+              >
+                <mat-option [value]="0"> </mat-option>
+                <mat-option
+                  *ngFor="let promotion of promotions"
+                  [value]="promotion"
+                >
+                  {{ promotion.promotionName }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Product Discounted Price</mat-label>

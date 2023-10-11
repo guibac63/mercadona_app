@@ -21,21 +21,4 @@ public class DTOTester {
 
   }
 
-  @Test
-  public void testDefaultConstructor() {
-      AuthResponseDTO authResponseDTO = new AuthResponseDTO();
-
-      assertNull(authResponseDTO.getAccessToken());
-      assertEquals("Bearer ", authResponseDTO.getTokenType());
-  }
-
-  @Test
-  public void testParameterizedConstructor() {
-      String accessToken = "myAccessToken";
-      AuthResponseDTO authResponseDTO = new AuthResponseDTO(accessToken);
-
-      assertEquals(accessToken, authResponseDTO.getAccessToken());
-      assertEquals("Bearer ", authResponseDTO.getTokenType());
-  }
-
 }

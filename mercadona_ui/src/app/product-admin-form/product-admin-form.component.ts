@@ -24,7 +24,7 @@ export class ProductAdminFormComponent {
     productDiscountedPrice: 0,
     category: null,
     promotion: null,
-    image: null
+    image: null,
   };
 
   categories: Category[];
@@ -60,7 +60,9 @@ export class ProductAdminFormComponent {
   }
 
   compareWithPromotion(object1: Promotion, object2: Promotion) {
-    return object1 && object2 && object1.promotionName === object2.promotionName;
+    return (
+      object1 && object2 && object1.promotionName === object2.promotionName
+    );
   }
 
   public getAllCategories() {
@@ -85,24 +87,23 @@ export class ProductAdminFormComponent {
     });
   }
 
-  onFileSelected(evt){
-    if(evt.target.files){
-     const file = evt.target.files[0]
+  onFileSelected(evt) {
+    if (evt.target.files) {
+      const file = evt.target.files[0];
 
-     const fileHandle: FileHandle = {
-      file: file,
-      url: this.sanitizer.bypassSecurityTrustUrl(
-        window.URL.createObjectURL(file)
-      )
-     }
-     this.product.image = fileHandle
+      const fileHandle: FileHandle = {
+        file: file,
+        url: this.sanitizer.bypassSecurityTrustUrl(
+          window.URL.createObjectURL(file)
+        ),
+      };
+      this.product.image = fileHandle;
     }
   }
 
   addProduct(productForm: NgForm) {
-    
-    if(productForm.valid){
-      const productFormData = this.prepareFormData(this.product)
+    if (productForm.valid) {
+      const productFormData = this.prepareFormData(this.product);
       this.productService.addProduct(productFormData).subscribe({
         next: (response: any) => {
           if (response.status == 200) {
@@ -110,7 +111,7 @@ export class ProductAdminFormComponent {
             this.router.navigate(['/admin/product_admin']);
           } else {
             console.log(response.message);
-          }       
+          }
         },
         error: (error) => {
           console.log(error);
@@ -119,27 +120,35 @@ export class ProductAdminFormComponent {
     }
   }
 
-  prepareFormData(product:Product): FormData {
-    
+  prepareFormData(product: Product): FormData {
     const formData = new FormData();
-    
+
     formData.append(
       'product',
-      new Blob([JSON.stringify(product)], {type:"application/json"})
+      new Blob([JSON.stringify(product)], { type: 'application/json' })
     );
 
     if (product.image) {
-      formData.append(
-        'imageFile',
-        product.image.file,
-        product.image.file.name
-      );      
+      formData.append('imageFile', product.image.file, product.image.file.name);
     }
     return formData;
   }
 
-  removeImage(){
+  removeImage() {
     this.product.image = null;
   }
 
+  changeDiscountedPrice(evt) {
+    if (this.product.productPrice > 0 && this.product.promotion != null) {
+      if(evt.value == 0 || isNaN(this.product.promotion.promotionPercentage)){
+        this.product.productDiscountedPrice = 0
+      }else{
+        let discountedPrice: number =
+          this.product.productPrice *
+          ((100 - this.product.promotion.promotionPercentage) / 100);
+        this.product.productDiscountedPrice =
+          Math.round(discountedPrice * 100) / 100;
+      }
+    }
+  }
 }
