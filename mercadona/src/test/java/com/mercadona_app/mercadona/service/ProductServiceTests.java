@@ -225,4 +225,50 @@ public class ProductServiceTests {
     assertAll(() -> productService.deleteProductDetails(productId));
 
   }
+
+  @Test
+  public void ProductService_SearchByPromotionId_ReturnsProduct() {
+
+    List<Product> productList = new ArrayList<Product>();
+
+    Date beginningDate = new Date();
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(2023, 12, 30, 59, 59, 59);
+    Date endingDate = calendar.getTime();
+
+    Promotion promotion = Promotion.builder()
+              .id(1)
+              .promotionName("Promotion one")
+              .beginningDate(beginningDate)
+              .endingDate(endingDate)
+              .promotionPercentage(10)
+              .build();
+
+    Promotion savedPromotion = promotionRepository.save(promotion);
+
+    Category category = Category.builder().categoryName("Fruits").build();
+
+    Category savedCategory = categoryRepository.save(category);
+
+    Product product = Product.builder()
+                      .productLibelle("Produit one")
+                      .productDescription("Ceci est un produit")
+                      .category(savedCategory)
+                      .promotion(savedPromotion)
+                      .productPrice(100.0)
+                      .build();
+    
+
+    productRepository.save(product);
+
+    productList.add(product);
+
+    when(productRepository.findByPromotionId(promotion.getId())).thenReturn(productList);
+
+    List<Product> productListReturn = productService.getProductsByPromotionId(promotion.getId());
+
+    Assertions.assertThat(productListReturn.get(0).getProductLibelle()).isNotNull();
+    Assertions.assertThat(productListReturn.get(0).getProductLibelle()).isEqualTo("Produit one");
+
+  }
 }

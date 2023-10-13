@@ -14,9 +14,19 @@ import { PromotionAdminFormComponent } from './promotion-admin-form/promotion-ad
 import { RoutePromotionResolver } from './_resolvers/route.promotion-resolver';
 import { ProductAdminFormComponent } from './product-admin-form/product-admin-form.component';
 import { RouteProductResolver } from './_resolvers/route.product-resolver';
+import { MentionsLegalesComponent } from './mentions-legales/mentions-legales.component';
+import { MercadonaProductComponent } from './mercadona-product/mercadona-product.component';
+import { RouteAllProductsResolver } from './_resolvers/route.productsAll-resolver';
+
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: 'mentions-legales', component: MentionsLegalesComponent },
+  {
+    path: 'all-our-products',
+    component: MercadonaProductComponent,
+    resolve: { routeAllProductsResolver: RouteAllProductsResolver },
+  },
   {
     path: 'admin',
     component: AdminComponent,

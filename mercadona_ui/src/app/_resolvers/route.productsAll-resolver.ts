@@ -10,22 +10,20 @@ import { ProductService } from '../_services/product-service';
 import { ImageProcessingService } from '../_services/image-processing-service';
 import { Product } from '../_model/product.model';
 
-export const RouteProductResolver: ResolveFn<any> = (
+export const RouteAllProductsResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
   productService: ProductService = inject(ProductService),
   imageService: ImageProcessingService = inject(ImageProcessingService)
-) => { 
-  if (route.paramMap.get('id')){
-    return productService
-      .getProductById(route.paramMap.get('id'))
-      .pipe(map((p) => imageService.createImages(p)));
-  }else{
-    return {}
-  }
-}
-
-
-  
-
-  
+) => {
+  return productService.getAllProducts().pipe(
+    map((data)=> {
+      const products = data.data;
+      const transformedProducts = products.map((product) => {
+        imageService.createImages(product)
+        return product;
+      });
+      return transformedProducts
+    })
+    )
+};

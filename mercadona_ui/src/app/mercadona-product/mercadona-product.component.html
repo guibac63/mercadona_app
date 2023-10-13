@@ -1,0 +1,72 @@
+<div class="header-height"></div>
+<div class="header-height position-relative text-white">
+  <div class="position-absolute filter-category"></div>
+</div>
+<div class="container-fluid w-100 col-12">
+  <div class="container">
+    <div class="row w-75">
+      <form #categoryForm="ngForm">
+        <mat-form-field class="bg-white" appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select
+            [(ngModel)]="product.category"
+            name="categories"
+            [compareWith]="compareWithCategory"
+            #productCategory="ngModel"
+          >
+            <mat-option [value]="0"> </mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category.categoryName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+    <mat-grid-list #grid [cols]="cols" rowHeight="2:3" gutterSize="10">
+      <mat-grid-tile class=" shadow" *ngFor="let p of products">
+        <div class="row position-relative h-100">
+          <img class="product-card-image " [src]="p.image.url" alt=""/>
+          <div class="m-3">
+            <b><p>{{p.productLibelle}}</p></b>
+          </div>
+          <div class="m-3">
+            <p>{{p.productDescription}}</p>
+          </div>
+          <div class="m-3">
+            <p>Prix: <span class=" fw-bold text-lg">{{p.productPrice}} €</span> <span class="ms-3 text-lg fw-bold text-danger">{{p.productDiscountedPrice}} €</span></p>
+            
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <!-- <div
+      class="row align-items-start flex-wrap justify-content-start mb-4 w-75"
+    > -->
+    <!-- <mat-card
+        class="col-12 col-md-4 col-xl-3 gap-2 "
+        *ngFor="let product of productDetails"
+      >
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ product.productLibelle }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ product.productDescription }}</p>
+          <img [src]="product.image.url" alt="productImage" />
+          <p>{{ product.productPrice }}</p>
+          <p>{{ product.productDiscountedPrice }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card> -->
+    <!-- <mat-paginator
+        [pageSize]="10"
+        showFirstLastButtons
+        aria-label="Select page"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+      ></mat-paginator> -->
+    <!-- </div> -->
+  </div>
+</div>

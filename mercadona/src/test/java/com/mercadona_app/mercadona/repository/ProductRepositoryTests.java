@@ -165,7 +165,45 @@ public class ProductRepositoryTests {
 
   @Test
   @Transactional
-  public void CategoryRepository_CategoryDelete_ReturnCategoryIsEmpty() {
+  public void ProductRepository_ProductFindByPromotionId_ReturnProduct() {
+    
+    Date beginningDate = new Date();
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(2023, 12, 30, 59, 59, 59);
+    Date endingDate = calendar.getTime();
+
+    Promotion promotion = Promotion.builder()
+              .id(1)
+              .promotionName("Promotion one")
+              .beginningDate(beginningDate)
+              .endingDate(endingDate)
+              .promotionPercentage(10)
+              .build();
+
+    Promotion savedPromotion = promotionRepository.save(promotion);
+
+    Category category = Category.builder().categoryName("Fruits").build();
+
+    Category savedCategory = categoryRepository.save(category);
+
+    Product product = Product.builder()
+                      .productLibelle("Produit one")
+                      .productDescription("Ceci est un produit")
+                      .category(savedCategory)
+                      .promotion(savedPromotion)
+                      .productPrice(100.0)
+                      .build();
+    
+    Product savedProduct = productRepository.save(product);
+
+    List<Product> productListReturn = productRepository.findByPromotionId(savedPromotion.getId());
+
+    Assertions.assertThat(productListReturn.get(0).getProductLibelle()).isEqualTo("Produit one");
+  }
+
+  @Test
+  @Transactional
+  public void ProductRepository_ProductDelete_ReturnProductIsEmpty() {
     
     Date beginningDate = new Date();
     Calendar calendar = Calendar.getInstance();
@@ -201,4 +239,5 @@ public class ProductRepositoryTests {
 
     Assertions.assertThat(productReturn).isEmpty();
   }
+
 }

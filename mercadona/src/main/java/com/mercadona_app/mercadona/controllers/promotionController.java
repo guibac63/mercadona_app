@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mercadona_app.mercadona.models.Product;
 import com.mercadona_app.mercadona.models.Promotion;
 import com.mercadona_app.mercadona.response.ResponseHandler;
 import com.mercadona_app.mercadona.services.PromotionService;
@@ -28,7 +29,7 @@ public class promotionController {
   public ResponseEntity<Object> addNewPromotion(@RequestBody Promotion promotion) {
     try{
       Promotion result = promotionService.addNewPromotion(promotion);
-    return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, result);
+      return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, result);
     } catch (Exception e) {
         return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
     }
@@ -58,4 +59,5 @@ public class promotionController {
       return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
     }
   }
+
 }

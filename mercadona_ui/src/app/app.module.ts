@@ -37,6 +37,11 @@ import { ShowProductDetailsComponent } from './show-product-details/show-product
 import { MatSortModule } from '@angular/material/sort';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DateRangeValidatorDirective } from './_directives/date-range-validator.directive';
+import { MentionsLegalesComponent } from './mentions-legales/mentions-legales.component';
+import { MercadonaProductComponent } from './mercadona-product/mercadona-product.component';
+import { MercadonaProductDetailComponent } from './mercadona-product-detail/mercadona-product-detail.component';
+
+
 
 
 @NgModule({
@@ -57,6 +62,9 @@ import { DateRangeValidatorDirective } from './_directives/date-range-validator.
     ProductAdminFormComponent,
     ShowProductDetailsComponent,
     DateRangeValidatorDirective,
+    MentionsLegalesComponent,
+    MercadonaProductComponent,
+    MercadonaProductDetailComponent,
   ],
   imports: [
     BrowserModule,

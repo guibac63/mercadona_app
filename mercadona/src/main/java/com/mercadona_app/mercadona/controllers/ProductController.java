@@ -23,6 +23,7 @@ import com.mercadona_app.mercadona.models.Product;
 import com.mercadona_app.mercadona.models.Promotion;
 import com.mercadona_app.mercadona.response.ResponseHandler;
 import com.mercadona_app.mercadona.services.ProductService;
+import com.mercadona_app.mercadona.services.PromotionService;
 
 // import java.util.Map;
 
@@ -32,6 +33,10 @@ public class ProductController {
 
   @Autowired
   private ProductService productService;
+
+  @Autowired
+  private PromotionService promotionService;
+
 
   @PostMapping(value = {"add"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
   public ResponseEntity<Object> addNewProduct(@RequestPart("product") Product product, @RequestPart(name = "imageFile", required = false) MultipartFile file) {
@@ -83,6 +88,24 @@ public class ProductController {
     } catch (Exception e) {
       return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
     }    
+  }
+
+  @GetMapping({"modifyProductDiscountedPrice/{id}"})
+  public ResponseEntity<Object> modifyProductDiscountedPrice(@PathVariable("id") Integer id){
+    
+    Promotion promotion = promotionService.getPromotionDetailsById(id);
+    List<Product> products =  productService.getProductsByPromotionId(id);
+    try {
+      for (Product product : products) {
+        Double discountedPrice = product.getProductPrice() * (100 - promotion.getPromotionPercentage())/100;
+        product.setProductDiscountedPrice(Math.round(discountedPrice * 100.0) / 100.0);
+        productService.addNewProduct(product);
+      }
+      return ResponseHandler.generateResponse("Discounted Products prices Successfully updated!", HttpStatus.OK, null);
+    } catch (Exception e) {
+      return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+    }
+
   }
 
 }

@@ -48,6 +48,7 @@ export class ProductAdminFormComponent {
     if (this.actRoute.snapshot.params.id != undefined) {
       this.actRoute.data.subscribe((data) => {
         this.product = data.routeProductResolver;
+        console.log(this.product)
       });
     }
 

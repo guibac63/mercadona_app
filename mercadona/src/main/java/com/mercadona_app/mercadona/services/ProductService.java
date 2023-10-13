@@ -51,6 +51,10 @@ public class ProductService {
     productRepository.deleteById(id);
   }
 
+  public List<Product> getProductsByPromotionId(Integer id) {
+    return (List<Product>) productRepository.findByPromotionId(id);
+  }
+
   public Product getProductDetailsById(Integer id) {
     return productRepository.findById(id).get();
   }

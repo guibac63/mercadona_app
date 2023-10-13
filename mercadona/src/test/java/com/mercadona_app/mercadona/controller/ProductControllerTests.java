@@ -278,6 +278,54 @@ public class ProductControllerTests {
 
   }
 
+  @Test
+  public void ProductController_GetProductByPromotionId_ReturnProduct() throws Exception {
+
+    List<Product> productList = new ArrayList<Product>();
+
+    int promotionId = 1;
+
+    Date beginningDate = new Date();
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(2023, 12, 30, 59, 59, 59);
+    Date endingDate = calendar.getTime();
+
+    Promotion promotion = Promotion.builder()
+        .id(promotionId)
+        .promotionName("Promotion one")
+        .beginningDate(beginningDate)
+        .endingDate(endingDate)
+        .promotionPercentage(10)
+        .build();
+
+    Promotion savedPromotion = promotionRepository.save(promotion);
+
+    Category category = Category.builder().categoryName("Fruits").build();
+
+    Category savedCategory = categoryRepository.save(category);
+
+    Product product = Product.builder()
+        .productLibelle("Produit one")
+        .productDescription("Ceci est un produit")
+        .category(savedCategory)
+        .promotion(promotion)
+        .productPrice(100.0)
+        .build();
+
+    productRepository.save(product);
+
+    productList.add(product);
+
+    when(promotionService.getPromotionDetailsById(promotionId)).thenReturn(promotion);
+    when(productService.getProductsByPromotionId(promotionId)).thenReturn(productList);
+
+    ResultActions response = mockMvc.perform(get("/api/product/modifyProductDiscountedPrice/1")
+        .contentType(org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE));
+
+    response.andExpect(MockMvcResultMatchers.status().isOk());
+
+  }
+
 
 
 

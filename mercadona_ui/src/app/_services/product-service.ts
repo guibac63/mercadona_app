@@ -17,7 +17,7 @@ export class ProductService {
   }
 
   public getAllProducts() {
-    return this.httpClient.get<Product[]>(
+    return this.httpClient.get<any>(
       'http://localhost:9090/api/product/getAll'
     );
   }
