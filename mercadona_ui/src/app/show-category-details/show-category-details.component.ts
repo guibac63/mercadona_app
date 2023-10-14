@@ -32,7 +32,6 @@ export class ShowCategoryDetailsComponent implements OnInit {
   public getAllCategories() {
     this.categoryService.getAllCategories().subscribe({
       next: (response: any) => {
-        console.log(response.message);
         if (response.message === 'JWT was expired or incorrect') {
           this.userAuthService.clear();
           this.router.navigate(['/login']);
@@ -55,7 +54,6 @@ export class ShowCategoryDetailsComponent implements OnInit {
   deleteCategory(categoryId) {
     this.categoryService.deleteCategory(categoryId).subscribe({
       next: (response) => {
-        console.log(response);
         this.getAllCategories();
       },
       error: (error) => {

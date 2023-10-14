@@ -6,7 +6,6 @@ import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +38,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { DateRangeValidatorDirective } from './_directives/date-range-validator.directive';
 import { MentionsLegalesComponent } from './mentions-legales/mentions-legales.component';
 import { MercadonaProductComponent } from './mercadona-product/mercadona-product.component';
-import { MercadonaProductDetailComponent } from './mercadona-product-detail/mercadona-product-detail.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 
@@ -51,7 +50,6 @@ import { MercadonaProductDetailComponent } from './mercadona-product-detail/merc
     AdminComponent,
     LoginComponent,
     HeaderComponent,
-    ForbiddenComponent,
     CategoryAdminComponent,
     ProductAdminComponent,
     CategoryAdminFormComponent,
@@ -64,7 +62,7 @@ import { MercadonaProductDetailComponent } from './mercadona-product-detail/merc
     DateRangeValidatorDirective,
     MentionsLegalesComponent,
     MercadonaProductComponent,
-    MercadonaProductDetailComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

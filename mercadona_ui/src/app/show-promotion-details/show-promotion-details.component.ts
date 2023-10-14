@@ -61,7 +61,6 @@ export class ShowPromotionDetailsComponent {
   deletePromotion(promotionId) {
     this.promotionService.deletePromotion(promotionId).subscribe({
       next: (response) => {
-        console.log(response);
         this.getAllPromotions();
       },
       error: (error) => {

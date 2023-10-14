@@ -43,7 +43,6 @@ export class PromotionAdminFormComponent {
       this.promotionService.addPromotion(this.promotion).subscribe({
         next: (response: any) => {
           if (response.status == 200) {
-            console.log(response);
             this.productService
               .modifyProductDiscountedPrice(response.data.id)
               .subscribe({

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../_model/product.model';
 import { of } from 'rxjs';
@@ -7,6 +7,15 @@ import { of } from 'rxjs';
   providedIn: 'root',
 })
 export class ProductService {
+
+  requestHeaders = new HttpHeaders()
+    .set('No-Auth', 'True')
+    .set('Access-Control-Allow-Origin', '*');
+
+  options = {
+    headers: this.requestHeaders,
+  };
+
   constructor(private httpClient: HttpClient) {}
 
   public addProduct(product: FormData) {
@@ -17,9 +26,7 @@ export class ProductService {
   }
 
   public getAllProducts() {
-    return this.httpClient.get<any>(
-      'http://localhost:9090/api/product/getAll'
-    );
+    return this.httpClient.get<any>('http://localhost:9090/api/product/getAll',this.options);
   }
 
   public deleteProduct(productId: number) {
@@ -39,15 +46,12 @@ export class ProductService {
   }
 
   public modifyProductDiscountedPrice(promotionId: any) {
-    console.log("dans service!!")
     if (promotionId) {
-      console.log('dans service avec ID!!');
       return this.httpClient.get(
         'http://localhost:9090/api/product/modifyProductDiscountedPrice/' +
           promotionId
       );
     } else {
-       console.log('probleme!!');
       return of([]);
     }
   }

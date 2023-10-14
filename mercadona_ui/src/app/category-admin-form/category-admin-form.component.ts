@@ -35,7 +35,6 @@ export class CategoryAdminFormComponent implements OnInit {
       this.categoryService.addCategory(this.category).subscribe({
         next: (response: any) => {
           if (response.status == 200) {
-            console.log(response);
             this.router.navigate(['/admin/category_admin']);
           } else {
             if (response.message.includes('ConstraintViolationException')) {

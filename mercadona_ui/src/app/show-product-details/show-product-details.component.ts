@@ -41,7 +41,6 @@ export class ShowProductDetailsComponent {
   public getAllProducts() {
     this.productService.getAllProducts().subscribe({
       next: (response: any) => {
-             console.log(response.message);
         if (response.message === 'JWT was expired or incorrect') {
           this.userAuthService.clear();
           this.router.navigate(['/login']);

@@ -48,7 +48,6 @@ export class ProductAdminFormComponent {
     if (this.actRoute.snapshot.params.id != undefined) {
       this.actRoute.data.subscribe((data) => {
         this.product = data.routeProductResolver;
-        console.log(this.product)
       });
     }
 
@@ -108,10 +107,7 @@ export class ProductAdminFormComponent {
       this.productService.addProduct(productFormData).subscribe({
         next: (response: any) => {
           if (response.status == 200) {
-            console.log(response);
             this.router.navigate(['/admin/product_admin']);
-          } else {
-            console.log(response.message);
           }
         },
         error: (error) => {

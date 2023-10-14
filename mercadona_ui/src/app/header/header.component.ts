@@ -17,6 +17,6 @@ export class HeaderComponent {
 
   public logOut() {
     this.userAuthService.clear();
-    this.router.navigate(['/home']);
+    this.router.navigate(['']);
   }
 }

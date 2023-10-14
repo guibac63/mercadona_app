@@ -1,10 +1,12 @@
 import { Component, Directive, ViewChild } from '@angular/core';
 import { Category } from '../_model/category.model';
 import { CategoryService } from '../_services/category.service';
-import { ProductService } from '../_services/product-service';
 import { Product } from '../_model/product.model';
 import { ActivatedRoute } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MercadonaProduct } from '../_model/mercadonaProduct.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-mercadona-product',
@@ -12,6 +14,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./mercadona-product.component.css'],
 })
 export class MercadonaProductComponent {
+  @ViewChild('paginator') paginator: MatPaginator;
+
   products: any[];
 
   product: Product = {
@@ -24,6 +28,8 @@ export class MercadonaProductComponent {
     promotion: null,
     image: null,
   };
+
+  productsFiltered: MercadonaProduct[];
 
   categories: Category[];
 
@@ -39,7 +45,6 @@ export class MercadonaProductComponent {
 
   constructor(
     private categoryService: CategoryService,
-    private productService: ProductService,
     private actRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver
   ) {
@@ -75,7 +80,7 @@ export class MercadonaProductComponent {
   ngOnInit(): void {
     this.actRoute.data.subscribe((data) => {
       this.products = data.routeAllProductsResolver;
-      console.log(data.routeAllProductsResolver);
+      this.productsFiltered = this.checkPromotionValidity(this.products);
     });
     this.getAllCategories();
   }
@@ -93,5 +98,36 @@ export class MercadonaProductComponent {
         console.log(error);
       },
     });
+  }
+
+  public filterProducts(evt) {
+    if (evt.value != 0) {
+      this.productsFiltered = this.checkPromotionValidity(
+        this.products.filter((product) => {
+          return product.category.id === evt.value.id;
+        })
+      );
+    } else {
+      this.productsFiltered = this.checkPromotionValidity(this.products);
+    }
+  }
+
+  public checkPromotionValidity(products) {
+    let productsFiltered = products;
+
+    productsFiltered.forEach((product) => {
+      let now = Date.now();
+      if (
+        product.promotion &&
+        Date.parse(product.promotion.beginningDate) <= now &&
+        Date.parse(product.promotion.endingDate) >= now
+      ) {
+        product.isPromotionValid = true;
+      } else {
+        product.isPromotionValid = false;
+      }
+    });
+
+    return productsFiltered;
   }
 }

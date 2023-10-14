@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,15 +36,17 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      http
+    http
               .cors(cors->corsConfigurationSource())
               .csrf(csrf -> csrf.disable())
               .exceptionHandling(handling -> handling.authenticationEntryPoint(authEntrypoint))
               .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
               .authorizeRequests(requests -> requests
-                              .antMatchers("/api/auth/register").denyAll()
-                              .antMatchers("/api/auth/login").permitAll()
-                              .anyRequest().authenticated())
+              .antMatchers("/api/auth/register").denyAll()
+              .antMatchers("/api/auth/login").permitAll()
+              .antMatchers("/api/product/getAll").permitAll()
+              .antMatchers("/api/category/getAll").permitAll()
+              .anyRequest().authenticated())
               .httpBasic(withDefaults());       
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
