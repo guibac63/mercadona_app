@@ -2,11 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../_model/product.model';
 import { of } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+
+  baseUrl = environment.baseUrl;
 
   requestHeaders = new HttpHeaders()
     .set('No-Auth', 'True')
@@ -20,25 +23,28 @@ export class ProductService {
 
   public addProduct(product: FormData) {
     return this.httpClient.post<Product>(
-      'http://localhost:9090/api/product/add',
+      this.baseUrl + 'api/product/add',
       product
     );
   }
 
   public getAllProducts() {
-    return this.httpClient.get<any>('http://localhost:9090/api/product/getAll',this.options);
+    return this.httpClient.get<any>(
+      this.baseUrl + 'api/product/getAll',
+      this.options
+    );
   }
 
   public deleteProduct(productId: number) {
     return this.httpClient.delete(
-      'http://localhost:9090/api/product/delete/' + productId
+      this.baseUrl + 'api/product/delete/' + productId
     );
   }
 
   public getProductById(productId: any) {
     if (productId) {
       return this.httpClient.get(
-        'http://localhost:9090/api/product/get/' + productId
+        this.baseUrl + 'api/product/get/' + productId
       );
     } else {
       return of([]);
@@ -48,7 +54,7 @@ export class ProductService {
   public modifyProductDiscountedPrice(promotionId: any) {
     if (promotionId) {
       return this.httpClient.get(
-        'http://localhost:9090/api/product/modifyProductDiscountedPrice/' +
+        this.baseUrl + 'api/product/modifyProductDiscountedPrice/' +
           promotionId
       );
     } else {
